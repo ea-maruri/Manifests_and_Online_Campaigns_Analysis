@@ -21,6 +21,6 @@ from Manifests_and_Online_Campaigns_Analysis.views import home, configurator
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('home/', home),
-  path('configurator/', configurator)
+  path('conf/', configurator)
 ]
 

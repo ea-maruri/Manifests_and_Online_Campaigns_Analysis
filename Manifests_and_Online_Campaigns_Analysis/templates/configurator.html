@@ -1,8 +1,17 @@
-{% extends 'base.html' %}
-
-{% block title %}Configurator{% endblock %}
+{% extends 'base.html' %} 
+{% block title %}Configurator{% endblock %} 
 
 {% block content %}
-  {% include 'top/nav-bar.html' %}
+  <!-- Title -->
+  <div class="container mt-5" id="visualizer-section">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
+        <h1 class="display-6" id="visualizer">Case Study Configurator</h1>
+        <hr class="my-2" />
+      </div>
+    </div>
+  </div>
+
+  {% include 'middle/conf-options.html' %}
 
 {% endblock %}
