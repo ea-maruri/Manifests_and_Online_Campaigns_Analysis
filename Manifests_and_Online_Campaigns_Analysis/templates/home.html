@@ -1,10 +1,88 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block title %}Home{% endblock %}
+{% block content%} 
 
-{% load static %}
-
-{% block title %}Home{% endblock %}
-
-{% block content%}
+  <!--
   <img class="img-fluid" src="{% static "succes-banner.jpg"%}" alt="Banner Image"/>
-  <h1>I am in home</h1>
+  -->
+
+  <!-- TITLE -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 text-center my-5">
+        <h1 calss="display-5">Manifests and Online Campaigns Analysis</h1>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Table and Extra data -->
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-12 col-md-7">
+
+        <!-- Table -->  
+        <div class="d-flex-column">
+          <!-- Title -->
+          <h3>Latest Study Cases</h3>
+
+          <!-- Table -->
+          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
+            <thead class="thead-inverse">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Date Start</th>
+                <th scope="col">Date End</th>
+                <th scope="col">Num. of candidates</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th scope="row">Case Study 1</hd>
+                <td>date</td>
+                <td>date</td>
+                <td>num</td>
+              </tr>
+              <tr>
+                <th scope="row">Case Study 2</hd>
+                <td>date</td>
+                <td>date</td>
+                <td>num</td>
+              </tr>
+                    <tr>
+                      <th scope="row">Case Study 3</hd>
+                      <td>date</td>
+                      <td>date</td>
+                      <td>num</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Case Study 3</hd>
+                      <td>date</td>
+                      <td>date</td>
+                      <td>num</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Case Study 4</hd>
+                      <td>date</td>
+                      <td>date</td>
+                      <td>num</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+        </div>
+      </div>
+
+      <!-- Extra Data -->
+      <div class="col-sm-12 col-md-5">
+        <h3 class="text-center">More info...<h3>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="my-5" />
+
+  {% include "middle/visualizer.html" %}
 {% endblock %}
