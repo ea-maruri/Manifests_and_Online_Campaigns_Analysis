@@ -79,6 +79,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postresql_psicopg2',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
