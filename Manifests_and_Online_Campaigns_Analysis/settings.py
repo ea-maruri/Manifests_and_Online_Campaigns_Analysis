@@ -85,7 +85,8 @@ DATABASES = {
         'NAME': 'studycases',
         'USER': 'postgres',
         'PASSWORD': 'Ecuador12',
-        'HOST': 'localhost,'
+        'HOST': 'localhost,',
+        'PORT': '5432',
     }
 }
 
