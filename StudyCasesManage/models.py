@@ -9,7 +9,7 @@ class Campaign(models.Model):
   name = models.CharField(max_length=25)
   start_date = models.DateField()
   end_date = models.DateField()
-  description = models.CharField(max_length=50, blank=True)
+  description = models.CharField(max_length=50, blank=True, null=True)
 
   def __str__(self):
     return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
@@ -19,8 +19,8 @@ class Candidate(models.Model):
   campaign_id = models.ForeignKey(Campaign, on_delete=models.PROTECT)
   name = models.CharField(max_length=20)
   lastname = models.CharField(max_length=20)
-  type = models.CharField(max_length=20, blank=True)  # candidate of what? Can be blank
-  party = models.CharField(max_length=20, blank=True)
+  type = models.CharField(max_length=20, blank=True, null=True)  # candidate of what? Can be blank
+  party = models.CharField(max_length=20, blank=True, null=True)
 
   def __str__(self):
     return "Candidate\n\tname: %s, lastname: %s, campaign, %s, type: %s, party: %s" %(self.name, self.lastname, self.campaign_id, self.type, self.party)
@@ -30,7 +30,7 @@ class Manifest(models.Model):
   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE)
   collect_date = models.DateField()
   release_date = models.DateField()
-  provider = models.CharField(max_length=40, blank=True)
+  provider = models.CharField(max_length=40, blank=True, null=True)
   type = models.CharField(max_length=10)
   # Maybe a path for the document location
 
@@ -42,7 +42,7 @@ class SocialMediaAccount(models.Model):
   candidate_id = models.ForeignKey(Candidate, on_delete=models.PROTECT)
   screen_name = models.CharField(max_length=20)
   created_date = models.DateField()
-  description = models.CharField(max_length=50, blank=True)
+  description = models.CharField(max_length=50, blank=True, null=True)
   followers = models.JSONField(encoder=DjangoJSONEncoder)
   mentions = models.JSONField(encoder=DjangoJSONEncoder)
 
