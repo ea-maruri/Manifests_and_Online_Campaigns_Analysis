@@ -26,6 +26,7 @@
           <!-- Title -->
           <h3>Latest Study Cases</h3>
 
+    
           <!-- Table -->
           <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
             <thead class="thead-inverse">
@@ -38,38 +39,22 @@
             </thead>
 
             <tbody>
-              <tr>
-                <th scope="row">Case Study 1</hd>
-                <td>date</td>
-                <td>date</td>
-                <td>num</td>
-              </tr>
-              <tr>
-                <th scope="row">Case Study 2</hd>
-                <td>date</td>
-                <td>date</td>
-                <td>num</td>
-              </tr>
-                    <tr>
-                      <th scope="row">Case Study 3</hd>
-                      <td>date</td>
-                      <td>date</td>
-                      <td>num</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Case Study 3</hd>
-                      <td>date</td>
-                      <td>date</td>
-                      <td>num</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Case Study 4</hd>
-                      <td>date</td>
-                      <td>date</td>
-                      <td>num</td>
-                    </tr>
-                  </tbody>
-                </table>
+
+              {% if campaigns %}
+                {% for camp in campaigns %}
+                  <tr>
+                    <th scope="row">{{camp.description}}</hd>
+                    <td>{{camp.start_date}}</td>
+                    <td>{{camp.end_date}}</td>
+                    <td class="text-right">{{camp.id}}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <p>There are no <strong>study cases</strong> yet</p>
+              {% endif %}
+
+            </tbody>
+          </table>
 
         </div>
       </div>

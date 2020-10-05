@@ -27,19 +27,23 @@
     <div class="container mb-5">
       <div class="d-flex justify-content-between">
 
+        <!-- Select a Case Study -->
         <div class="d-flex-column">
           <div class="btn-group-vertical mr-auto mb-3" role="group" aria-label="">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-secondary">Select a Case Study</button>
+              <button type="button" class="btn btn-secondary" title="Select a Case Study">Select a Case Study</button>
               <button id="dropdownId" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false">    
               </button>
 
               <div class="dropdown-menu" aria-labelledby="dropdownId">
-                <a class="dropdown-item" href="#">Case Study 1</a>
-                <a class="dropdown-item" href="#">Case Study 2</a>
-                <a class="dropdown-item" href="#">Case Study 3</a>
-                <a class="dropdown-item" href="#">Case Study 4</a>
+                {% if campaigns %}
+                  {% for camp in campaigns %}
+                    <a class="dropdown-item" href="#">{{camp.description}}**</a>
+                  {% endfor %}
+                {% else %}
+                  <a class="dropdown-item" href="#">There are no <strong>study cases</strong> yet</a>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -49,19 +53,25 @@
           </div>
         </div>
 
+
+        <!-- Select a Candidate -->
         <div class="d-flex-column">
           <div class="btn-group-vertical mr-auto mb-3" role="group" aria-label="">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-secondary">Select a Candidate</button>
+              <button type="button" class="btn btn-secondary" title="Select a Candidate">Select a Candidate</button>
               <button id="dropdownId" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false">    
               </button>
 
               <div class="dropdown-menu" aria-labelledby="dropdownId">
-                <a class="dropdown-item" href="#">Candidate 1</a>
-                <a class="dropdown-item" href="#">Candidate 2</a>
-                <a class="dropdown-item" href="#">Candidate 3</a>
-                <a class="dropdown-item" href="#">Candidate 4</a>
+                {% if candidates %}
+                  {% for candidate in candidates %}
+                    <a class="dropdown-item" href="#">{{candidate}}**</a>
+                  {% endfor %}
+                {% else %}
+                  <a class="dropdown-item" href="#">There are no <strong>candidates</strong> yet</a>
+                {% endif %}
+                
               </div>
             </div>
           </div>
@@ -71,19 +81,24 @@
           </div>
         </div>
 
+
+        <!-- Select a Document -->
         <div class="d-flex-column">
           <div class="btn-group-vertical mr-auto mb-3" role="group" aria-label="">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-secondary">Select a Case Study</button>
+              <button type="button" class="btn btn-secondary" title="Select a Document">Select a Document</button>
               <button id="dropdownId" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false">    
               </button>
 
               <div class="dropdown-menu" aria-labelledby="dropdownId">
-                <a class="dropdown-item" href="#">Doc. 1</a>
-                <a class="dropdown-item" href="#">Doc. 2</a>
-                <a class="dropdown-item" href="#">Doc. 3</a>
-                <a class="dropdown-item" href="#">Doc. 4</a>
+                {% if docs %}
+                  {% for doc in docs %}
+                    <a class="dropdown-item" href="#">{{doc}}**</a>
+                  {% endfor %}
+                {% else %}
+                  <a class="dropdown-item" href="#">There are no <strong>documents</strong> yet</a>
+                {% endif %}
               </div>
             </div>
           </div>
