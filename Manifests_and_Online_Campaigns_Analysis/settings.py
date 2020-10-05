@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'StudyCasesManage'
 ]
 
 MIDDLEWARE = [
@@ -75,14 +76,17 @@ WSGI_APPLICATION = 'Manifests_and_Online_Campaigns_Analysis.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
     # 'default': {
-    #     'ENGINE': 'django.db.backends.postresql_psicopg2',
+    #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'studycases',
+        'USER': 'postgres',
+        'PASSWORD': 'Ecuador12',
+        'HOST': 'localhost,'
+    }
 }
 
 
