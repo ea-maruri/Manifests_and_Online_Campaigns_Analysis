@@ -4,7 +4,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
-from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm
+from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm, CreateCandidateForm, ConfigureCaseStudyForm
 #from .classes import Campaign
 
 # Import Models
@@ -89,7 +89,10 @@ def home(request):
 def configurator(request):
   """Renders the request page"""
 
-  return render(request, "configurator.html")
+  create_candidate_form = CreateCandidateForm()
+  conf_cases_form = ConfigureCaseStudyForm()
+
+  return render(request, "configurator.html", {"forms": [conf_cases_form, create_candidate_form]})
 
 
 
@@ -125,10 +128,10 @@ def search_case(request):
 
 def contact(request):
   if request.method == "POST":
-    myForm = ContactForm(request.POST)
+    my_form = ContactForm(request.POST)
 
-    if myForm.is_valid():
-      form_info = myForm.cleaned_data
+    if my_form.is_valid():
+      form_info = my_form.cleaned_data
 
       send_mail(
         form_info['subject'], 
@@ -140,9 +143,9 @@ def contact(request):
       return render(request, "forms/thanks.html")
 
   else:
-    myForm = ContactForm()
+    my_form = ContactForm()
 
-  return render(request, "forms/contact-form.html", {"form": myForm})
+  return render(request, "forms/contact-form.html", {"form": my_form})
 
 
   # if request.method == "POST":

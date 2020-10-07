@@ -14,4 +14,35 @@
 
   {% include 'middle/conf-options.html' %}
 
+  {% block config_option %}{% endblock %}
+
+  
+  <!-- A specific form -->
+  <div class="container">
+    <div class"row">
+      <div class="col-sm-12">
+
+        <div class="d-flex justify-content-around">
+          {% comment %} {% include 'forms/create-candidate-form.html' %} {% endcomment %}
+
+          {% for form in forms %}
+            {% if form.error %}
+              <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+            {% endif %}
+
+            <div class="form-group">
+              <form action="" method="POST">{% csrf_token %} 
+                {{form.as_p}}
+                <input type="submit" value="Create"/>
+                <small id="emailHelpId" class="form-text text-muted">Please fill all data</small>
+              </form>
+            </div>
+          {% endfor %}
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
