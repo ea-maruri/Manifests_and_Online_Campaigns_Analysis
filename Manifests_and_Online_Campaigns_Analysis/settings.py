@@ -57,7 +57,8 @@ ROOT_URLCONF = 'Manifests_and_Online_Campaigns_Analysis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project-Develop/Manifests_and_Online_Campaigns_Analysis/Manifests_and_Online_Campaigns_Analysis/templates"],
+        'DIRS': ["C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project-Develop/Manifests_and_Online_Campaigns_Analysis/Manifests_and_Online_Campaigns_Analysis/templates",
+                 "C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project-Develop/Manifests_and_Online_Campaigns_Analysis/StudyCasesManage/templates/StudyCasesManage"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
