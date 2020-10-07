@@ -4,6 +4,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
+from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm
 #from .classes import Campaign
 
 # Import Models
@@ -124,13 +125,34 @@ def search_case(request):
 
 def contact(request):
   if request.method == "POST":
-    subject = request.POST["contact_subject"]
-    message = request.POST["contact_message"] + "\nMy email is " + request.POST["contact_email"]
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = ["ea.maruri@gmail.com"]
+    myForm = ContactForm(request.POST)
 
-    send_mail(subject, message, email_from, recipient_list)
+    if myForm.is_valid():
+      form_info = myForm.cleaned_data
 
-    return render(request, "forms/thanks.html")
+      send_mail(
+        form_info['subject'], 
+        form_info['message'], 
+        form_info.get('email', settings.EMAIL_HOST_USER),
+        ["ea.maruri@gmail.com"]
+      )
 
-  return render(request, "forms/contact.html")
+      return render(request, "forms/thanks.html")
+
+  else:
+    myForm = ContactForm()
+
+  return render(request, "forms/contact-form.html", {"form": myForm})
+
+
+  # if request.method == "POST":
+  #   subject = request.POST["contact_subject"]
+  #   message = request.POST["contact_message"] + "\nMy email is " + request.POST["contact_email"]
+  #   email_from = settings.EMAIL_HOST_USER
+  #   recipient_list = ["ea.maruri@gmail.com"]
+
+  #   send_mail(subject, message, email_from, recipient_list)
+
+  #   return render(request, "forms/thanks.html")
+
+  # return render(request, "forms/contact.html")
