@@ -96,3 +96,14 @@ def contact(request):
   #   return render(request, "forms/thanks.html")
 
   # return render(request, "forms/contact.html")
+
+
+
+def login(request):
+  return render(request, "forms/login.html")
+
+
+
+def register(request):
+  return render(request, "forms/register.html")
+

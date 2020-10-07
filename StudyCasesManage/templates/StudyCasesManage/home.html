@@ -1,15 +1,14 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Home{% endblock %}
+{% extends 'base.html' %} 
+{% block title %}Home{% endblock %}
+{% load static %} 
 {% block content%} 
-
-  <!--
-  <img class="img-fluid" src="{% static "succes-banner.jpg"%}" alt="Banner Image"/>
-  -->
 
   <!-- TITLE -->
   <div class="container-fluid">
-    <div class="row">
+    <div class="row m-0 p-0">
       <div class="col-sm-12 text-center my-5">
         <h1 calss="display-5">Manifests and Online Campaigns Analysis</h1>
+        {% comment %} <img class="img-fluid mb-3 mb-lg-0" src="{% static 'StudyCasesManage/assets/img/success-banner.jpg' %}" alt="Banner img" height="20%"/> {% endcomment %}
       </div>
     </div>
   </div>
