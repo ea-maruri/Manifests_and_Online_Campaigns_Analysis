@@ -16,6 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# PROJECT_LOCATION_DIR = ""
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'Manifests_and_Online_Campaigns_Analysis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project/Manifests_and_Online_Campaigns_Analysis/Manifests_and_Online_Campaigns_Analysis/templates"],
+        'DIRS': ["C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project-Develop/Manifests_and_Online_Campaigns_Analysis/Manifests_and_Online_Campaigns_Analysis/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
