@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Manifests_and_Online_Campaigns_Analysis.views import home, configurator, cases_study_search, search_case
+from Manifests_and_Online_Campaigns_Analysis.views import home, configurator, cases_study_search, search_case, contact
 
 
 urlpatterns = [
@@ -24,5 +24,6 @@ urlpatterns = [
   path('conf/', configurator),
   path('cases-searcher/', cases_study_search),
   path('search/', search_case),
+  path('contact/', contact),
 ]
 
