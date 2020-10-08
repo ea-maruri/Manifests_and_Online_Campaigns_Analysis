@@ -11,11 +11,9 @@ class Campaign(models.Model):
   start_date = models.DateField()
   end_date = models.DateField()
   description = models.CharField(max_length=50, blank=True, null=True)
-
-  # def __str__(self):
-  #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
-  
+    
   def __str__(self):
+    #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
     return "name: %s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
 
 

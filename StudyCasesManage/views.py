@@ -44,8 +44,7 @@ def search_case(request):
   """Renders and ensures the message is given to the server"""
 
   if request.GET["case_study"]:
-    # message = "Case Study searched: %r" % request.GET["case_study"]
-    case_study = request.GET["case_study"]
+    case_study = request.GET["case_study"]  # Case searched
 
     if len(case_study) > 20:
       message = "Too long text for searching"
@@ -66,11 +65,17 @@ def search_case(request):
 
 def contact(request):
   if request.method == "POST":
+    #   subject = request.POST["contact_subject"]
+    #   message = request.POST["contact_message"] + "\nMy email is " + request.POST["contact_email"]
+    #   email_from = settings.EMAIL_HOST_USER
+    #   recipient_list = ["ea.maruri@gmail.com"]
+
     my_form = ContactForm(request.POST)
 
     if my_form.is_valid():
       form_info = my_form.cleaned_data
 
+      # send_mail(subject, message, email_from, recipient_list)
       send_mail(
           form_info['subject'],
           form_info['message'],
@@ -83,19 +88,8 @@ def contact(request):
   else:
     my_form = ContactForm()
 
-  return render(request, "forms/contact-form.html", {"form": my_form})
+  return render(request, "forms/contact-form.html", {"form": my_form})  
 
-  # if request.method == "POST":
-  #   subject = request.POST["contact_subject"]
-  #   message = request.POST["contact_message"] + "\nMy email is " + request.POST["contact_email"]
-  #   email_from = settings.EMAIL_HOST_USER
-  #   recipient_list = ["ea.maruri@gmail.com"]
-
-  #   send_mail(subject, message, email_from, recipient_list)
-
-  #   return render(request, "forms/thanks.html")
-
-  # return render(request, "forms/contact.html")
 
 
 
