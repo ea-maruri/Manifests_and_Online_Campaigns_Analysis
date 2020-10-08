@@ -39,26 +39,28 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
+          <!-- Left Side -->
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active" title="HOME">
+              <li class="nav-item {% if request.path == '/'%}active mactive{% endif %}" title="HOME">
                 <a class="nav-link text-warning ml-4" href="{% url 'home' %}">
                   HOME <span class="sr-only">(current)</span>
                 </a>
               </li>
-              <li class="nav-item" title="Visualizer">
+              <li class="nav-item {% if request.path == '/'%}active mactive{% endif %}" title="Visualizer">
                 <a class="nav-link text-warning ml-2" href="{% url 'home' %}#visualizer-section">Visualizer</a>
               </li>
-              <li class="nav-item" title="Configurator">
+              <li class="nav-item {% if request.path == '/conf'%}active mactive{% endif %}" title="Configurator">
                 <a class="nav-link text-warning ml-2" href="{% url 'configurator' %}">Configurator</a>
               </li>
             </ul>
             
+            <!-- Right Side -->
             <ul class="navbar-nav my-lg-0">
-              <li class="nav-item" title="Sign-in">
+              <li class="nav-item {% if request.path == '/login'%}active mactive{% endif %}" title="Sign-in">
                 <a class="nav-link text-warning" href="{% url 'login' %}">LOG-IN</a>
               </li>
-              <li class="nav-item" title="Sign-up">
+              <li class="nav-item {% if request.path == '/register'%}active mactive{% endif %}" title="Sign-up">
                 <a class="nav-link text-warning" href="{% url 'register' %}">LOG-UP</a>
               </li>
             </ul>
