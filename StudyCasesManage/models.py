@@ -16,7 +16,7 @@ class Campaign(models.Model):
   #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
   
   def __str__(self):
-    return "Campaign\n\tname: %s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
+    return "name: %s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
 
 
 class Candidate(models.Model):
@@ -27,7 +27,7 @@ class Candidate(models.Model):
   party = models.CharField(max_length=20, blank=True, null=True)
 
   def __str__(self):
-    return "Candidate\n\tname: %s, lastname: %s, campaign, %s, type: %s, party: %s" %(self.name, self.lastname, self.campaign_id, self.type, self.party)
+    return "name: %s, lastname: %s, campaign, %s, type: %s, party: %s" %(self.name, self.lastname, self.campaign_id, self.type, self.party)
 
 
 class Manifest(models.Model):
@@ -41,7 +41,7 @@ class Manifest(models.Model):
   # Maybe a path for the document location
 
   def __str__(self):
-    return "Manifest\n\tcandidate: %s, collect_date: %s, release_date: %s, provider: %s, type: %s" %(self.candidate_id, self.collect_date, self.release_date, self.provider, self.type)
+    return "candidate: %s, collect_date: %s, release_date: %s, provider: %s, type: %s" %(self.candidate_id, self.collect_date, self.release_date, self.provider, self.type)
 
 
 class SocialMediaAccount(models.Model):
@@ -53,7 +53,7 @@ class SocialMediaAccount(models.Model):
   mentions = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
 
   def __str__(self):
-    return "Social Media Account\n\tcandidate: %s, screen_name: %s, creation_date: %s, description: %s" %(self.candidate_id, self.screen_name, self.created_date, self.description)
+    return "candidate: %s, screen_name: %s, creation_date: %s, description: %s" %(self.candidate_id, self.screen_name, self.created_date, self.description)
 
 class Timeline(models.Model):
   social_media_id = models.ForeignKey(SocialMediaAccount, on_delete=models.CASCADE, verbose_name="Timeline")
@@ -62,7 +62,7 @@ class Timeline(models.Model):
   end_date = models.DateField()
 
   def __str__(self):
-    return "Timeline\n\tsocial_medio: %s, collect_date: %s, end_date: %s" %(self.social_media_id, self.collect_date, self.end_date)
+    return "social_media_account: %s, collect_date: %s, end_date: %s" %(self.social_media_id, self.collect_date, self.end_date)
 
 
 class Post(models.Model):
@@ -78,5 +78,5 @@ class Post(models.Model):
 
 
   def __str__(self):
-    return "Post\n\tparent: %s, post_date: %s, text: %s" %(self.parent_id, self.post_date, self.post_text)
+    return "parent: %s, post_date: %s, text: %s" %(self.parent_id, self.post_date, self.post_text)
 
