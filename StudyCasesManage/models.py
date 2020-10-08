@@ -1,4 +1,3 @@
-from os import name
 from django.db import models
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models.deletion import PROTECT
@@ -11,7 +10,7 @@ class Campaign(models.Model):
   start_date = models.DateField()
   end_date = models.DateField()
   description = models.CharField(max_length=50, blank=True, null=True)
-    
+  
   def __str__(self):
     #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
     return "name: %s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
@@ -31,7 +30,7 @@ class Candidate(models.Model):
 class Manifest(models.Model):
   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
   name = models.CharField(max_length=45)
-  location = models.CharField(max_length=100)
+  upload = models.FileField(upload_to="uploads/manifests/"+candidate_id.__str__()+"/%Y/%m/%d")
   collect_date = models.DateField(blank=True, default=datetime.date.today)
   release_date = models.DateField(blank=True, null=True)
   provider = models.CharField(max_length=40, blank=True, null=True)
