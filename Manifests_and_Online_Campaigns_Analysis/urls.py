@@ -24,6 +24,8 @@ urlpatterns = [
   path('admin/', admin.site.urls),
 
   path('StudyCasesManage/', include('StudyCasesManage.urls')),
+
+  path('Configurator/', include('StudyCasesConfApp.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

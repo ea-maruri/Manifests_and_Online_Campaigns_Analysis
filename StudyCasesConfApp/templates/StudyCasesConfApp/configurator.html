@@ -14,10 +14,19 @@
 
   {% include 'middle/conf-options.html' %}
 
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">Title of chosen <mark>configuration</mark></h3>
+      </div>
+    </div>
+  </div>
+
+
   {% block config_option %}{% endblock %}
 
   
-  <!-- A specific form -->
+  <!-- Suppose A specific form -->
   <div class="container">
     <div class"row">
       <div class="col-sm-12">
@@ -34,7 +43,10 @@
               <form action="" method="POST">{% csrf_token %} 
                 {{form.as_p}}
                 <input type="submit" value="Create"/>
-                <small id="emailHelpId" class="form-text text-muted">Please fill all data</small>
+
+                <div class="d-flex justify-content-end">
+                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+                </div>
               </form>
             </div>
           {% endfor %}

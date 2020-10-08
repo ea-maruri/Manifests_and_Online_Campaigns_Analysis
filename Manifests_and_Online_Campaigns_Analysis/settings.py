@@ -58,7 +58,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'Manifests_and_Online_Campaigns_Analysis/templates',
-                 BASE_DIR / 'StudyCasesManage/templates/StudyCasesManage'],
+                 BASE_DIR / 'StudyCasesManage/templates/StudyCasesManage',
+                 BASE_DIR / 'StudyCasesConfApp/templates/StudyCasesConfApp'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

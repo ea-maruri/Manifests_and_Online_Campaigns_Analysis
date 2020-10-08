@@ -23,16 +23,6 @@ def home(request):
 
 
 
-def configurator(request):
-  """Renders the request page"""
-
-  create_candidate_form = CreateCandidateForm()
-  conf_cases_form = ConfigureCaseStudyForm()
-
-  return render(request, "configurator.html", {"forms": [conf_cases_form, create_candidate_form]})
-
-
-
 def cases_study_search(request):
   """Renders the form 'cases-study-search'"""
 
