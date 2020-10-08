@@ -24,13 +24,13 @@ class Candidate(models.Model):
   party = models.CharField(max_length=20, blank=True, null=True)
 
   def __str__(self):
-    return "name: %s, lastname: %s, campaign, %s, type: %s, party: %s" %(self.name, self.lastname, self.campaign_id, self.type, self.party)
+    return "name: %s, lastname: %s, campaign, %s" %(self.name, self.lastname, self.campaign_id)
 
 
 class Manifest(models.Model):
   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
   name = models.CharField(max_length=45)
-  upload = models.FileField(upload_to="uploads/manifests/"+candidate_id.__str__()+"/%Y/%m/%d")
+  upload = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
   collect_date = models.DateField(blank=True, default=datetime.date.today)
   release_date = models.DateField(blank=True, null=True)
   provider = models.CharField(max_length=40, blank=True, null=True)

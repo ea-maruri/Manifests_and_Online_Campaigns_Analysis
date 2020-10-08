@@ -17,9 +17,9 @@ class CandidateAdmin(admin.ModelAdmin):
   list_filter = ("campaign_id", "type", "party")
 
 class ManifestAdmin(admin.ModelAdmin):
-  list_display = ("type", "name", "candidate_id", "collect_date", "release_date", "provider")
+  list_display = ("name", "type", "candidate_id", "upload", "collect_date", "release_date", "provider")
   search_fields = ("name", "candidate_id", "type")
-  list_filter = ("type", "candidate_id")
+  list_filter = ("name", "type", "candidate_id")
   date_hierarchy = "collect_date"
 
 class SocialMediaAccountAdmin(admin.ModelAdmin):
@@ -47,4 +47,4 @@ admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(Manifest, ManifestAdmin)
 admin.site.register(SocialMediaAccount, SocialMediaAccountAdmin)
 admin.site.register(Timeline, TimelineAdmin)
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)

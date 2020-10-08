@@ -1,6 +1,8 @@
-from os import name
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
+# Import views
 from StudyCasesManage import views
 
 urlpatterns = [
@@ -13,3 +15,4 @@ urlpatterns = [
   path('register/', views.register, name="register"),
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

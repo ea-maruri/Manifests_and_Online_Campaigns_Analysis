@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# PROJECT_LOCATION_DIR = ""
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -58,8 +57,8 @@ ROOT_URLCONF = 'Manifests_and_Online_Campaigns_Analysis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project-Develop/Manifests_and_Online_Campaigns_Analysis/Manifests_and_Online_Campaigns_Analysis/templates",
-                 "C:/Users/Alejandro Maruri/Documents/EAMT/USFQ/Semestres/09_Noveno_Semestre/Proyecto_Integrador/Project-Develop/Manifests_and_Online_Campaigns_Analysis/StudyCasesManage/templates/StudyCasesManage"],
+        'DIRS': [BASE_DIR / 'Manifests_and_Online_Campaigns_Analysis/templates',
+                 BASE_DIR / 'StudyCasesManage/templates/StudyCasesManage'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,8 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-
+# Mailing
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
