@@ -28,6 +28,7 @@
   
   <!-- Suppose A specific form -->
   <div class="container">
+    <!-- Case study -->
     <div class"row">
       <div class="col-sm-12">
 
@@ -55,6 +56,98 @@
 
       </div>
     </div>
+
+    <hr class="my-5 w-75"/>
+
+    <!-- Collection Conf -->
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="d-flex justify-content-around">
+          {% if collection_conf.error %}
+            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+          {% else %}
+            <div class="form-group">
+              <form action="" method="POST">{% csrf_token %} 
+                {{collection_conf}}
+                <input type="submit" value="Accept"/>
+
+                <div class="d-flex justify-content-end">
+                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5 w-75"/>
+
+    <!-- Document Conf -->
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="d-flex justify-content-around">
+          {% if document_conf.error %}
+            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+          {% else %}
+            <div class="form-group">
+              <form action="" method="POST">{% csrf_token %} 
+                {{document_conf}}
+                <input type="submit" value="Accept"/>
+
+                <div class="d-flex justify-content-end">
+                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5 w-75"/>
+
+    <!-- Analysis Conf -->
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="d-flex justify-content-around">
+          {% if analysis_conf.error %}
+            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+          {% else %}
+            <div class="form-group">
+              <form action="" method="POST">{% csrf_token %} 
+                {{analysis_conf}}
+                <input type="submit" value="Start"/>
+
+                <div class="d-flex justify-content-end">
+                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5 w-75"/>
+
+    <!-- Delete Account -->
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="d-flex justify-content-around">
+          <p>Are you sure?</p>
+          <input type="submit" value="Yes"/>
+          <input type="submit" value="No"/>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5 w-75"/>
+    
   </div>
 
 {% endblock %}

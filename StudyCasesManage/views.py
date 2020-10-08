@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http.response import HttpResponse
 
 # Import forms
-from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm, CreateCandidateForm, ConfigureCaseStudyForm
+from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm
 
 # Import model
 from StudyCasesManage.models import Campaign

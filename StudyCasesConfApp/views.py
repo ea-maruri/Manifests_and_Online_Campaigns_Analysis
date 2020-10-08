@@ -2,8 +2,9 @@ from django.http import request
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
-#
-from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm, CreateCandidateForm, ConfigureCaseStudyForm
+# Fomrs
+from .forms import CreateCandidateForm, ConfigureCaseStudyForm, DataCollectionForm, DocumentConfForm, AnalysisConf
+
 
 # Create your views here.
 def configurator(request):
@@ -12,7 +13,20 @@ def configurator(request):
   create_candidate_form = CreateCandidateForm()
   conf_cases_form = ConfigureCaseStudyForm()
 
-  return render(request, "configurator.html", {"forms": [conf_cases_form, create_candidate_form]})
+  data_collection_form = DataCollectionForm()
+
+  document_conf_form = DocumentConfForm()
+
+  analysis_conf_form = AnalysisConf()
+
+  return render(request, "configurator.html", 
+                  {
+                    "forms": [conf_cases_form, create_candidate_form], 
+                    "collection_conf": data_collection_form,
+                    "document_conf": document_conf_form,
+                    "analysis_conf": analysis_conf_form
+                  }
+  )
 
 
 
@@ -27,7 +41,9 @@ def create_entity(request):
 
 
 def data_collection_conf(request):
-  return HttpResponse("Data collectionConf")
+  data_collection_form = DataCollectionForm()
+
+  return render(request, "requ", )
 
 
 
