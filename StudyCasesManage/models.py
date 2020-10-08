@@ -35,7 +35,7 @@ class Manifest(models.Model):
   name = models.CharField(max_length=45)
   location = models.CharField(max_length=100)
   collect_date = models.DateField(blank=True, default=datetime.date.today)
-  release_date = models.DateField()
+  release_date = models.DateField(blank=True, null=True)
   provider = models.CharField(max_length=40, blank=True, null=True)
   type = models.CharField(max_length=10, blank=True, null=True)
   # Maybe a path for the document location
@@ -49,8 +49,8 @@ class SocialMediaAccount(models.Model):
   screen_name = models.CharField(max_length=20)
   created_date = models.DateField(blank=True, null=True)
   description = models.CharField(max_length=50, blank=True, null=True)
-  followers = models.JSONField(encoder=DjangoJSONEncoder)
-  mentions = models.JSONField(encoder=DjangoJSONEncoder)
+  followers = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
+  mentions = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
 
   def __str__(self):
     return "Social Media Account\n\tcandidate: %s, screen_name: %s, creation_date: %s, description: %s" %(self.candidate_id, self.screen_name, self.created_date, self.description)
@@ -58,7 +58,7 @@ class SocialMediaAccount(models.Model):
 class Timeline(models.Model):
   social_media_id = models.ForeignKey(SocialMediaAccount, on_delete=models.CASCADE, verbose_name="Timeline")
   # maybe a DateRangeField()
-  collect_date = models.DateField(blank=True, default=datetime.date.today)
+  collect_date = models.DateField(default=datetime.date.today)
   end_date = models.DateField()
 
   def __str__(self):
@@ -71,10 +71,11 @@ class Post(models.Model):
   # Must point to Post
   # Reverse query name for 'Post.parent_id' clashes with field name 'Post.post'
   # HINT: Rename field 'Post.post', or add/change a related_name argument to the definition for field 'Post.parent_id'.
-  parent_id = models.ForeignKey('self', on_delete=models.PROTECT, related_name='+') 
+  parent_id = models.ForeignKey('self', on_delete=models.PROTECT, related_name='+', blank=True, null=True) 
   post_date = models.DateField()
   post_text = models.CharField(max_length=100)
-  post_as_json = models.JSONField(encoder=DjangoJSONEncoder)
+  post_as_json = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
+
 
   def __str__(self):
     return "Post\n\tparent: %s, post_date: %s, text: %s" %(self.parent_id, self.post_date, self.post_text)
