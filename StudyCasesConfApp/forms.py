@@ -112,6 +112,7 @@ class CreateCandidateForm(forms.Form):
   # )
 
 
+
 class CreateSocialMediaAccount(forms.Form):
   def __init__(self, candidates: tuple, *args, **kwargs):
     super(CreateSocialMediaAccount, self).__init__(*args, **kwargs)
@@ -131,18 +132,17 @@ class CreateSocialMediaAccount(forms.Form):
   )
 
 
-class DocumentConfForm(forms.Form):
-  case_study = forms.ChoiceField(
-      #choices=Campaign.objects.all(),
-      choices=CHOICES,
-      label="Case Study"
-  )
 
-  candidate = forms.ChoiceField(
-      #choices=Campaign.objects.all(),
-      choices=CHOICES,
-      label="Candidate"
-  )
+class DocumentConfForm(forms.Form):
+  def __init__(self, candidates: tuple, *args, **kwargs):
+    super(DocumentConfForm, self).__init__(*args, **kwargs)
+    self.fields["candidate"] = forms.ChoiceField(
+        choices=candidates, label="Candidate")
+
+  candidate = forms.ChoiceField()
+
+  #document = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
+  document = forms.FileField(max_length=1000)
 
 
 
@@ -158,3 +158,8 @@ class AnalysisConf(forms.Form):
       choices=CHOICES,
       label="Metric"
   )
+
+
+class UploadFileForm(forms.Form):
+  title = forms.CharField(max_length=50)
+  file = forms.FileField()

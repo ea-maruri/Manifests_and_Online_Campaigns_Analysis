@@ -5,6 +5,9 @@ from django import http
 from django.http.response import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .forms import UploadFileForm
 
 # Fomrs
 from .forms import CreateCandidateForm, ConfigureCaseStudyForm, DataCollectionForm, DocumentConfForm, AnalysisConf, CreateSocialMediaAccount
@@ -21,7 +24,7 @@ def configurator(request):
   
   # Forms
   data_collection_form = DataCollectionForm(campaigns_tuple)
-  document_conf_form = DocumentConfForm()
+  document_conf_form = DocumentConfForm(candidates_tuple)
   analysis_conf_form = AnalysisConf()
   create_candidate_form = CreateCandidateForm(campaigns_tuple)
   create_social_account = CreateSocialMediaAccount(candidates_tuple)
@@ -29,6 +32,7 @@ def configurator(request):
 
   # Handling forms
   if request.method == 'POST':
+    # Handle create study case (campaign) form
     conf_cases_form = ConfigureCaseStudyForm(request.POST)
     if conf_cases_form.is_valid():
       form_info = conf_cases_form.cleaned_data
@@ -97,7 +101,7 @@ def configurator(request):
       )
 
 
-
+    # Handle create account form
     create_social_account = CreateSocialMediaAccount(candidates_tuple, request.POST)
     if create_social_account.is_valid():
       form_info = create_social_account.cleaned_data
@@ -128,6 +132,40 @@ def configurator(request):
               account_to_create, candidate)
       )
 
+
+    document_conf_form = DocumentConfForm(candidates_tuple, request.POST, request.FILES)
+    #print(document_conf_form)
+    if document_conf_form.is_valid():
+      print("DOCUMENT")
+      form_info = document_conf_form.cleaned_data
+
+      candidate = Candidate.objects.get(id=form_info['candidate'])
+      document_to_create = SocialMediaAccount(
+          candidate_id=candidate,
+          document=form_info['document']
+      )
+
+      print("Suppose to create", document_to_create)
+      try:
+        document_to_create.save()
+      except Exception as e:
+        messages.error(request, 'Something went wrong: ' + str(e))
+        return render(request, "configurator.html",
+                      {
+                          "forms": [conf_cases_form, create_candidate_form],
+                          "collection_conf": data_collection_form,
+                          "document_conf": document_conf_form,
+                          "analysis_conf": analysis_conf_form
+                      }
+                      )
+
+      messages.success(
+          request, 'Document "%s" for %s created successfully.' % (
+              document_to_create, candidate)
+      )
+
+    else:
+      print("Something happen in Doc")  
 
   else:
     conf_cases_form = ConfigureCaseStudyForm()
@@ -175,6 +213,23 @@ def delete_account(request):
   return HttpResponse("Delete account")
 
 
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'])
+            return HttpResponseRedirect('/success/url/')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
+
+
+def handle_uploaded_file(f):
+    with open('StudyCasesManage/uploads/manifests/%Y/%m/%d/' + f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 ## Used methods
 def get_campaigns_tuple():
   campaigns_list = list()
@@ -192,3 +247,8 @@ def get_candidates_tuple():
 
   return tuple(candidates_list)
 
+
+# def handle_uploaded_file(f):   
+#   with open("StudyCasesManage/uploads/manifests/%Y/%m/%d/" + f.name, 'wb +') as destination:
+#     for chunk in f.chunks(): 
+#       destination.write(chunk) 

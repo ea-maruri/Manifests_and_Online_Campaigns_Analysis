@@ -17,7 +17,7 @@ class CandidateAdmin(admin.ModelAdmin):
   list_filter = ("campaign_id", "type", "party")
 
 class ManifestAdmin(admin.ModelAdmin):
-  list_display = ("name", "type", "candidate_id", "upload", "collect_date", "release_date", "provider")
+  list_display = ("candidate_id", "document", "name", "type", "collect_date", "release_date", "provider")
   search_fields = ("name", "candidate_id", "type")
   list_filter = ("name", "type", "candidate_id")
   date_hierarchy = "collect_date"

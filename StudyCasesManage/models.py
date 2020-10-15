@@ -29,8 +29,8 @@ class Candidate(models.Model):
 
 class Manifest(models.Model):
   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
-  name = models.CharField(max_length=45)
-  upload = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
+  name = models.CharField(max_length=45, blank=True, null=True)
+  document = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
   collect_date = models.DateField(blank=True, default=datetime.date.today)
   release_date = models.DateField(blank=True, null=True)
   provider = models.CharField(max_length=40, blank=True, null=True)
