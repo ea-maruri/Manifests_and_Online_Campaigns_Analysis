@@ -6,25 +6,25 @@ import datetime
 
 # Models for Database are created here as Python classes.
 class Campaign(models.Model):
-  name = models.CharField(max_length=25)  # verbose_name="something" to change the output in admin panel
+  name = models.CharField(max_length=50, unique=True)  # verbose_name="something" to change the output in admin panel
   start_date = models.DateField()
   end_date = models.DateField()
   description = models.CharField(max_length=50, blank=True, null=True)
   
   def __str__(self):
     #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
-    return "name: %s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
+    return "%s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
 
 
 class Candidate(models.Model):
-  campaign_id = models.ForeignKey(Campaign, on_delete=models.PROTECT, verbose_name="Campaign")
+  campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name="Campaign")
   name = models.CharField(max_length=20)
   lastname = models.CharField(max_length=20)
   type = models.CharField(max_length=20, blank=True, null=True)  # candidate of what? Can be blank
   party = models.CharField(max_length=20, blank=True, null=True)
 
   def __str__(self):
-    return "name: %s, lastname: %s, campaign, %s" %(self.name, self.lastname, self.campaign_id)
+    return "%s %s. In campaign: %s" %(self.name, self.lastname, self.campaign_id)
 
 
 class Manifest(models.Model):
@@ -42,15 +42,17 @@ class Manifest(models.Model):
 
 
 class SocialMediaAccount(models.Model):
-  candidate_id = models.ForeignKey(Candidate, on_delete=models.PROTECT, verbose_name="Candidate")
+  #candidate_id = models.ForeignKey(Candidate, on_delete=models.PROTECT, verbose_name="Candidate")
+  candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
   screen_name = models.CharField(max_length=20)
+  account = models.CharField(max_length=40, default='Twitter')
   created_date = models.DateField(blank=True, null=True)
-  description = models.CharField(max_length=50, blank=True, null=True)
   followers = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
   mentions = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
 
   def __str__(self):
-    return "candidate: %s, screen_name: %s, creation_date: %s, description: %s" %(self.candidate_id, self.screen_name, self.created_date, self.description)
+    return "candidate: %s, screen_name: %s" %(self.candidate_id, self.screen_name)
+
 
 class Timeline(models.Model):
   social_media_id = models.ForeignKey(SocialMediaAccount, on_delete=models.CASCADE, verbose_name="Timeline")
@@ -68,7 +70,7 @@ class Post(models.Model):
   # Must point to Post
   # Reverse query name for 'Post.parent_id' clashes with field name 'Post.post'
   # HINT: Rename field 'Post.post', or add/change a related_name argument to the definition for field 'Post.parent_id'.
-  parent_id = models.ForeignKey('self', on_delete=models.PROTECT, related_name='+', blank=True, null=True) 
+  parent_id = models.ForeignKey('self', on_delete=models.CASCADE, related_name='+', blank=True, null=True) 
   post_date = models.DateField()
   post_text = models.CharField(max_length=100)
   post_as_json = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)

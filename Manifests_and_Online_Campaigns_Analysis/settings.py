@@ -142,3 +142,17 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587 # port for TLS in gmail
 EMAIL_HOST_USER = 'ea.maruri@gmail.com'
 EMAIL_HOST_PASSWORD = '#AlejoMaruriOnGmail14'
+
+
+# Messages to user
+try:
+    from django.contrib.messages import constants as messages
+    MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-info',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+    }
+except Exception as e:
+    pass

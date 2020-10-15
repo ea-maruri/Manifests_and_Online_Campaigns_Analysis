@@ -28,9 +28,25 @@
   
   <!-- Suppose A specific form -->
   <div class="container">
-    <!-- Case study -->
+
+    <!-- Case study and entities creation -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">Create Entities</h3>
+      </div>
+    </div>
+
     <div class"row">
       <div class="col-sm-12">
+
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message | safe }}
+            </div>
+        {% endfor %}
 
         <div class="d-flex justify-content-around">
           {% comment %} {% include 'forms/create-candidate-form.html' %} {% endcomment %}
@@ -38,18 +54,19 @@
           {% for form in forms %}
             {% if form.error %}
               <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+            {% else %}
+              <div class="form-group">
+                <form action="" method="POST">{% csrf_token %} 
+                  {{form.as_p}}
+                
+                  <input type="submit" value="Create"/>
+
+                  <div class="d-flex justify-content-end">
+                    <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+                  </div>
+                </form>
+              </div>
             {% endif %}
-
-            <div class="form-group">
-              <form action="" method="POST">{% csrf_token %} 
-                {{form.as_p}}
-                <input type="submit" value="Create"/>
-
-                <div class="d-flex justify-content-end">
-                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
-                </div>
-              </form>
-            </div>
           {% endfor %}
           
         </div>
@@ -59,7 +76,14 @@
 
     <hr class="my-5 w-75"/>
 
+
     <!-- Collection Conf -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">Data Collection Configuration</h3>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-sm-12">
 
@@ -84,7 +108,14 @@
 
     <hr class="my-5 w-75"/>
 
+
     <!-- Document Conf -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">Document Configuration</h3>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-sm-12">
 
@@ -109,7 +140,14 @@
 
     <hr class="my-5 w-75"/>
 
+
     <!-- Analysis Conf -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">Analysis Configuration</h3>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-sm-12">
 
@@ -134,7 +172,14 @@
 
     <hr class="my-5 w-75"/>
 
+
     <!-- Delete Account -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">Delete Account</h3>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-sm-12">
 

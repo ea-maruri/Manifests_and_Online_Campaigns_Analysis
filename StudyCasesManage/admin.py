@@ -23,7 +23,7 @@ class ManifestAdmin(admin.ModelAdmin):
   date_hierarchy = "collect_date"
 
 class SocialMediaAccountAdmin(admin.ModelAdmin):
-  list_display = ("candidate_id", "screen_name", "created_date", "description", "followers", "mentions")
+  list_display = ("candidate_id", "screen_name", "created_date", "account", "followers", "mentions")
   search_fields = ("candidate_id", "screen_name")
   list_filter = ("candidate_id", "screen_name")
 

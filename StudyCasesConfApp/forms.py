@@ -1,51 +1,42 @@
+from StudyCasesManage.models import Campaign
 from django import forms
 from django.forms.widgets import DateInput
 
 
-from StudyCasesManage.models import Campaign
 
 
 # iterable
 CHOICES = (
-    ("1", "One"),
-    ("2", "Two"),
-    ("3", "Three"),
-    ("4", "Four"),
-    ("5", "Five"),
+  ("1", "One"),
+  ("2", "Two"),
+  ("3", "Three"),
+  ("4", "Four"),
+  ("5", "Five"),
+)
+
+SOCIAL_ACCOUNTS = (
+  ("Twitter", "Twitter"),
+  ("Facebook", "Facebook"),
+  ("Instagram", "Instagram"),
 )
 
 
 class DataCollectionForm(forms.Form):
-  campaigns = list(Campaign.objects.all())
-  # ids = Entry.objects.values_list('column_name', flat=True).filter(...)
-  campaigns = Campaign.objects.values_list('id', 'name').filter()
-  print(type(campaigns))
-  print(campaigns)
 
-  camps_as_list = list()
-  for camp_id, camp_name in campaigns:
-    print(camp_id, camp_name)
-    camp_id = str(camp_id)
-    camps_as_list.append((camp_id, camp_name))
-  #   camps_as_tuple.__add__(tuple(camp))
-
-  camps_as_tuple = tuple(camps_as_list)
-  print(tuple(camps_as_tuple))
+  def __init__(self, campaigns: tuple, *args, **kwargs):
+    super(DataCollectionForm, self).__init__(*args, **kwargs)
+    self.fields["case_study"] = forms.ChoiceField(choices=campaigns, label="Case Study")
 
 
-  case_study = forms.ChoiceField(
-    #choices=Campaign.objects.all(),
-    choices=camps_as_tuple,
-    label="Case Study"
-  )
+  case_study = forms.ChoiceField()
 
   start_date = forms.DateField(
-    widget=forms.DateInput(attrs={'placeholder': 'dd/mm/yyyy'}),
-    label=""
+    widget=forms.DateInput(attrs={'placeholder': 'yyyy-mm-dd'}),
+    label="",
   )
 
   end_date = forms.DateField(
-    widget=forms.DateInput(attrs={'placeholder': 'dd/mm/yyyy'}),
+    widget=forms.DateInput(attrs={'placeholder': 'yyyy-mm-dd'}),
     label=""
   )
 
@@ -62,18 +53,18 @@ class DataCollectionForm(forms.Form):
 
 
 class ConfigureCaseStudyForm(forms.Form):
-  campaig_name = forms.CharField(
+  name = forms.CharField(
       widget=forms.TextInput(attrs={'placeholder': "Campaign's name"}),
       label=""
   )
 
   start_date = forms.DateField(
-      widget=DateInput(attrs={'placeholder': 'dd/mm/yyyy'}),
+      widget=DateInput(attrs={'placeholder': 'yyyy-mm-dd'}),
       label=""
   )
 
   end_date = forms.DateField(
-      widget=forms.DateInput(attrs={'placeholder': 'dd/mm/yyyy'}),
+      widget=forms.DateInput(attrs={'placeholder': 'yyyy-mm-dd'}),
       label=""
   )
 
@@ -85,6 +76,13 @@ class ConfigureCaseStudyForm(forms.Form):
 
 
 class CreateCandidateForm(forms.Form):
+  def __init__(self, campaigns: tuple, *args, **kwargs):
+    super(CreateCandidateForm, self).__init__(*args, **kwargs)
+    self.fields["case_study"] = forms.ChoiceField(
+        choices=campaigns, label="Case Study")
+
+  case_study = forms.ChoiceField()
+  
   name = forms.CharField(
       widget=forms.TextInput(attrs={'placeholder': 'Name'}),
       label=""
@@ -107,10 +105,29 @@ class CreateCandidateForm(forms.Form):
       required=False
   )
 
-  candidates_list = forms.CharField(
-      widget=forms.Textarea(
-          attrs={'placeholder': 'List...', 'readonly': 'true'}),
-      label=""
+  # candidates_list = forms.CharField(
+  #     widget=forms.Textarea(
+  #         attrs={'placeholder': 'List...', 'readonly': 'true'}),
+  #     label=""
+  # )
+
+
+class CreateSocialMediaAccount(forms.Form):
+  def __init__(self, candidates: tuple, *args, **kwargs):
+    super(CreateSocialMediaAccount, self).__init__(*args, **kwargs)
+    self.fields["candidate"] = forms.ChoiceField(
+        choices=candidates, label="Candidate")
+
+  candidate = forms.ChoiceField()
+
+  screen_name = forms.CharField(
+    widget=forms.TextInput(attrs={'placeholder': 'Screen name'}),
+    label=""
+  )
+
+  account = forms.ChoiceField(
+    choices=SOCIAL_ACCOUNTS,
+    label="Account"
   )
 
 
