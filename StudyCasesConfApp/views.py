@@ -1,7 +1,4 @@
-from os import name
-from StudyCasesManage.models import Campaign, Candidate, SocialMediaAccount
-from django.http import request
-from django import http
+from django.core.files.storage import FileSystemStorage
 from django.http.response import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render
@@ -9,8 +6,18 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import UploadFileForm
 
-# Fomrs
-from .forms import CreateCandidateForm, ConfigureCaseStudyForm, DataCollectionForm, DocumentConfForm, AnalysisConf, CreateSocialMediaAccount
+# Models
+from StudyCasesManage.models import Campaign, Candidate, Manifest, SocialMediaAccount
+
+# Forms
+from .forms import CreateCandidateForm, ConfigureCaseStudyForm, DataCollectionForm, DocumentConfForm, AnalysisConf, CreateSocialMediaAccount, DocumentForm
+
+# Own utilities
+import StudyCasesManage.logic.ea_db_utilities as db_util
+
+# Constant
+ERROR_MESSAGE = 'Something went wrong: '
+BASE_CONF_PAGE = 'configurator.html'
 
 
 # Create your views here.
@@ -18,13 +25,13 @@ def configurator(request):
   """Renders the request page"""
 
   campaign_name = 'Test Campaign - 2020'
-  screen_names_list = get_screen_names_list(campaign_name)
+  screen_names_list = db_util.get_screen_names_list(campaign_name)
   print("Screen names in", campaign_name)
   print(screen_names_list)
 
   # Tuples used in forms
-  campaigns_tuple = get_campaigns_tuple()
-  candidates_tuple = get_candidates_tuple()
+  campaigns_tuple = db_util.get_campaigns_tuple()
+  candidates_tuple = db_util.get_candidates_tuple()
 
   
   # Forms
@@ -54,8 +61,8 @@ def configurator(request):
         campaign_to_create.save()
         
       except Exception as e:
-        messages.error(request, 'Something went wrong: ' + str(e))
-        return render(request, "configurator.html",
+        messages.error(request, ERROR_MESSAGE + str(e))
+        return render(request, BASE_CONF_PAGE,
                       {
                           "forms": [conf_cases_form, create_candidate_form],
                           "collection_conf": data_collection_form,
@@ -88,8 +95,8 @@ def configurator(request):
       try:
         candidate_to_create.save()
       except Exception as e:
-        messages.error(request, 'Something went wrong: ' + str(e))
-        return render(request, "configurator.html",
+        messages.error(request, ERROR_MESSAGE + str(e))
+        return render(request, BASE_CONF_PAGE,
                       {
                           "forms": [conf_cases_form, create_candidate_form],
                           "collection_conf": data_collection_form,
@@ -121,8 +128,8 @@ def configurator(request):
       try:
         account_to_create.save()
       except Exception as e:
-        messages.error(request, 'Something went wrong: ' + str(e))
-        return render(request, "configurator.html",
+        messages.error(request, ERROR_MESSAGE + str(e))
+        return render(request, BASE_CONF_PAGE,
                       {
                           "forms": [conf_cases_form, create_candidate_form],
                           "collection_conf": data_collection_form,
@@ -139,7 +146,7 @@ def configurator(request):
 
 
     document_conf_form = DocumentConfForm(candidates_tuple, request.POST, request.FILES)
-    #print(document_conf_form)
+    #document_conf_form = DocumentUploadForm(candidates_tuple, request.POST, request.FILES)
     if document_conf_form.is_valid():
       print("DOCUMENT")
       form_info = document_conf_form.cleaned_data
@@ -154,8 +161,8 @@ def configurator(request):
       try:
         document_to_create.save()
       except Exception as e:
-        messages.error(request, 'Something went wrong: ' + str(e))
-        return render(request, "configurator.html",
+        messages.error(request, ERROR_MESSAGE + str(e))
+        return render(request, BASE_CONF_PAGE,
                       {
                           "forms": [conf_cases_form, create_candidate_form],
                           "collection_conf": data_collection_form,
@@ -168,20 +175,57 @@ def configurator(request):
           request, 'Document "%s" for %s created successfully.' % (
               document_to_create, candidate)
       )
-
+    
     else:
-      print("Something happen in Doc")  
+      print("Something happen in Doc")
+    
+    
+    if request.FILES['document']:
+      # manifest = request.FILES['document']
+      # fs = FileSystemStorage()
+      # filename = fs.save(manifest.name, manifest)
+      # uploaded_file_url = fs.url(filename)
+      # print("Upoladed to", uploaded_file_url)
 
+      form = DocumentForm(request.POST or None, request.FILES or None)
+      
+      if form.is_valid():
+        form_info = form.cleaned_data
+        print("Form info:")
+        print(form_info)
+        print("UPLOAD...")
+
+        try:
+          form.save() # DO not save, instead update (CHECK IT)
+        except Exception as e:
+          messages.error(request, ERROR_MESSAGE + str(e))
+          return render(request, BASE_CONF_PAGE,
+                        {
+                            "forms": [conf_cases_form, create_candidate_form],
+                            "collection_conf": data_collection_form,
+                            "document_conf": document_conf_form,
+                            "analysis_conf": analysis_conf_form
+                        }
+                        )
+
+        messages.success(request, 'Manifest "%s" for %s added successfully.' % (form_info['name'], form_info['candidate_id']))
+      
+      else:
+        print("NO UPLOAD")
+
+    
   else:
     conf_cases_form = ConfigureCaseStudyForm()
+    form = DocumentForm()
 
 
-  return render(request, "configurator.html", 
+  return render(request, BASE_CONF_PAGE, 
                   {
                     "forms": [conf_cases_form, create_candidate_form, create_social_account], 
                     "collection_conf": data_collection_form,
                     "document_conf": document_conf_form,
-                    "analysis_conf": analysis_conf_form
+                    "analysis_conf": analysis_conf_form,
+                    "test_form": form
                   }
   )
 
@@ -236,55 +280,9 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 
-
-
-## Used methods
-def get_campaigns_tuple():
-  campaigns_list = list()
-  for camp in Campaign.objects.values_list('id', 'name'):
-    campaigns_list.append(camp)
-  
-  return tuple(campaigns_list)
-
-
-def get_candidates_tuple():
-  candidates_list = list()
-  for cand in Candidate.objects.values_list('id', 'name', 'lastname'):
-    new_candidate = (cand[0], str(cand[1]) + ' ' + str(cand[2]))
-    candidates_list.append(new_candidate)
-
-  return tuple(candidates_list)
-
-
-def get_screen_names_list(campaign_name: str):
-  #TEST SELECT
-  # accounts_list = SocialMediaAccount.objects.select_related(
-  #     'candidate_id', 'campaign_id').values_list('screen_name').filter(name='Test Campaign - 2020')
-
-  # accounts_list = Campaign.objects.get(name="Test Campaign - 2020")
-
-  # print("\nList 1")
-  # print()
-  # print(accounts_list.__str__())
-
-  the_query = """SELECT public."StudyCasesManage_socialmediaaccount"."id", screen_name 
-                  FROM public."StudyCasesManage_socialmediaaccount"
-                    INNER JOIN public."StudyCasesManage_candidate"
-                      ON(public."StudyCasesManage_socialmediaaccount"."candidate_id_id"=public."StudyCasesManage_candidate"."id")
-                    INNER JOIN public."StudyCasesManage_campaign"
-                      ON(public."StudyCasesManage_candidate"."campaign_id_id"=public."StudyCasesManage_campaign"."id")
-                  WHERE public."StudyCasesManage_campaign"."name"=""" + "'" + campaign_name + "'"
-
-
-  screen_names_list = list()
-  print('\nList 2')
-  for account in SocialMediaAccount.objects.raw(the_query):
-    screen_names_list.append(account.screen_name)
-
-  return screen_names_list
-
-
 # def handle_uploaded_file(f):   
 #   with open("StudyCasesManage/uploads/manifests/%Y/%m/%d/" + f.name, 'wb +') as destination:
 #     for chunk in f.chunks(): 
 #       destination.write(chunk) 
+
+

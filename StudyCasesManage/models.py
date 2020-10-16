@@ -12,8 +12,7 @@ class Campaign(models.Model):
   description = models.CharField(max_length=50, blank=True, null=True)
   
   def __str__(self):
-    #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
-    return "%s" % (self.name)
+    return "%s" % self.name
 
 
 class Candidate(models.Model):
@@ -36,7 +35,8 @@ class Candidate(models.Model):
 
 
 class Manifest(models.Model):
-  candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
+  candidate_id = models.OneToOneField(Candidate, on_delete=models.CASCADE, verbose_name="Candidate", primary_key=True)
+  # candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
   name = models.CharField(max_length=45, blank=True, null=True)
   document = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
   collect_date = models.DateField(blank=True, default=datetime.date.today)
@@ -50,7 +50,6 @@ class Manifest(models.Model):
 
 
 class SocialMediaAccount(models.Model):
-  #candidate_id = models.ForeignKey(Candidate, on_delete=models.PROTECT, verbose_name="Candidate")
   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
   screen_name = models.CharField(max_length=20)
   account = models.CharField(max_length=40, default='Twitter')
@@ -86,4 +85,5 @@ class Post(models.Model):
 
   def __str__(self):
     return "parent: %s, post_date: %s, text: %s" %(self.parent_id, self.post_date, self.post_text)
+
 

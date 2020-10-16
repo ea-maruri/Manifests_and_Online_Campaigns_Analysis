@@ -1,4 +1,5 @@
-from StudyCasesManage.models import Campaign
+from django.db.models import fields
+from StudyCasesManage.models import Manifest
 from django import forms
 from django.forms.widgets import DateInput
 
@@ -145,7 +146,6 @@ class DocumentConfForm(forms.Form):
   document = forms.FileField(max_length=1000)
 
 
-
 class AnalysisConf(forms.Form):
   case_study = forms.ChoiceField(
     #choices=Campaign.objects.all(),
@@ -163,3 +163,18 @@ class AnalysisConf(forms.Form):
 class UploadFileForm(forms.Form):
   title = forms.CharField(max_length=50)
   file = forms.FileField()
+
+
+# TEST FORM
+# create a ModelForm
+class DocumentForm(forms.ModelForm):
+  # def __init__(self, *args, **kwargs):
+  #   super(DocumentForm, self).__init__(*args, **kwargs)
+  #   self.fields["document"] = forms.FileField(
+  #     widget=forms.FileInput(attrs={'name': 'myfile',})
+  #   )
+
+  class Meta:
+    model = Manifest  # specify the name of model to use
+    fields = "__all__"
+

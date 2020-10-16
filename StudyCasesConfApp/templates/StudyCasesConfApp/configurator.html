@@ -193,6 +193,40 @@
 
     <hr class="my-5 w-75"/>
     
+
+    <!-- TEST -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h3 class="mb-5">TEST</h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="d-flex justify-content-around">
+          {% if test_form.error %}
+            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+          {% else %}
+            <div class="form-group">
+              <form enctype="multipart/form-data" action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
+                <!--<input type="file" name="myfile" class="form-control">-->
+                {{test_form}}
+                <input type="submit" value="Add"/>
+
+                <!--{{test_form.document}}-->
+                <div class="d-flex justify-content-end">
+                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="my-5 w-75"/>
   </div>
 
 {% endblock %}
