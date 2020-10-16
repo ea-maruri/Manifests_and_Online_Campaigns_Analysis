@@ -262,27 +262,12 @@ def delete_account(request):
   return HttpResponse("Delete account")
 
 
+def compute(request):
+  from StudyCasesManage.logic.get_time_lines import main
 
-def upload_file(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('/success/url/')
-    else:
-        form = UploadFileForm()
-    return render(request, 'upload.html', {'form': form})
+  campaign_name = 'Test Campaign - 2020'
+  screen_names_list = db_util.get_screen_names_list(campaign_name)
+  main(screen_names_list)
 
-
-def handle_uploaded_file(f):
-    with open('StudyCasesManage/uploads/manifests/%Y/%m/%d/' + f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-
-# def handle_uploaded_file(f):   
-#   with open("StudyCasesManage/uploads/manifests/%Y/%m/%d/" + f.name, 'wb +') as destination:
-#     for chunk in f.chunks(): 
-#       destination.write(chunk) 
-
+  return HttpResponse("Computing...")
 
