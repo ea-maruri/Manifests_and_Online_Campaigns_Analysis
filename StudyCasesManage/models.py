@@ -13,7 +13,7 @@ class Campaign(models.Model):
   
   def __str__(self):
     #   return "Campaign\n\tname: %s, start_date: %s, end_date: %s, description: %s." % (self.name, self.start_date, self.end_date, self.description)
-    return "%s, start_date: %s, end_date: %s" % (self.name, self.start_date, self.end_date)
+    return "%s" % (self.name)
 
 
 class Candidate(models.Model):
@@ -25,6 +25,14 @@ class Candidate(models.Model):
 
   def __str__(self):
     return "%s %s. In campaign: %s" %(self.name, self.lastname, self.campaign_id)
+
+
+# class CandidatesCampaigns(models.Model):
+#   campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name="Campaign")
+#   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
+
+#   def __str__(self):
+#     return "%s in %s"  % (self.candidate_id, self.campaign_id)
 
 
 class Manifest(models.Model):
@@ -51,7 +59,7 @@ class SocialMediaAccount(models.Model):
   mentions = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
 
   def __str__(self):
-    return "candidate: %s, screen_name: %s" %(self.candidate_id, self.screen_name)
+    return "Account: %s of candidate: %s" %(self.screen_name, self.candidate_id)
 
 
 class Timeline(models.Model):

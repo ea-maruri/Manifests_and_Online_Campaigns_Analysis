@@ -17,6 +17,11 @@ from .forms import CreateCandidateForm, ConfigureCaseStudyForm, DataCollectionFo
 def configurator(request):
   """Renders the request page"""
 
+  campaign_name = 'Test Campaign - 2020'
+  screen_names_list = get_screen_names_list(campaign_name)
+  print("Screen names in", campaign_name)
+  print(screen_names_list)
+
   # Tuples used in forms
   campaigns_tuple = get_campaigns_tuple()
   candidates_tuple = get_candidates_tuple()
@@ -230,6 +235,9 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
 
+
+
+
 ## Used methods
 def get_campaigns_tuple():
   campaigns_list = list()
@@ -246,6 +254,34 @@ def get_candidates_tuple():
     candidates_list.append(new_candidate)
 
   return tuple(candidates_list)
+
+
+def get_screen_names_list(campaign_name: str):
+  #TEST SELECT
+  # accounts_list = SocialMediaAccount.objects.select_related(
+  #     'candidate_id', 'campaign_id').values_list('screen_name').filter(name='Test Campaign - 2020')
+
+  # accounts_list = Campaign.objects.get(name="Test Campaign - 2020")
+
+  # print("\nList 1")
+  # print()
+  # print(accounts_list.__str__())
+
+  the_query = """SELECT public."StudyCasesManage_socialmediaaccount"."id", screen_name 
+                  FROM public."StudyCasesManage_socialmediaaccount"
+                    INNER JOIN public."StudyCasesManage_candidate"
+                      ON(public."StudyCasesManage_socialmediaaccount"."candidate_id_id"=public."StudyCasesManage_candidate"."id")
+                    INNER JOIN public."StudyCasesManage_campaign"
+                      ON(public."StudyCasesManage_candidate"."campaign_id_id"=public."StudyCasesManage_campaign"."id")
+                  WHERE public."StudyCasesManage_campaign"."name"=""" + "'" + campaign_name + "'"
+
+
+  screen_names_list = list()
+  print('\nList 2')
+  for account in SocialMediaAccount.objects.raw(the_query):
+    screen_names_list.append(account.screen_name)
+
+  return screen_names_list
 
 
 # def handle_uploaded_file(f):   
