@@ -192,7 +192,7 @@ def delete_account(request):
 
 
 def compute(request):
-  from StudyCasesManage.logic.get_time_lines import main
+  from StudyCasesManage.logic.ea_get_time_lines import main
 
   campaign_name = 'Test Campaign - 2020'
   screen_names_list = db_util.get_screen_names_list(campaign_name)
