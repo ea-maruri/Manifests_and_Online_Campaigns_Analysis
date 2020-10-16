@@ -5,7 +5,6 @@ from django.forms.widgets import DateInput
 
 
 
-
 # iterable
 CHOICES = (
   ("1", "One"),
@@ -148,22 +147,23 @@ class DocumentConfForm(forms.Form):
 
 class AnalysisConf(forms.Form):
   case_study = forms.ChoiceField(
-    #choices=Campaign.objects.all(),
     choices=CHOICES,
     label="Case Study"
   )
 
   metric = forms.ChoiceField(
-      #choices=Campaign.objects.all(),
       choices=CHOICES,
       label="Metric"
   )
 
 
-class UploadFileForm(forms.Form):
-  title = forms.CharField(max_length=50)
-  file = forms.FileField()
+class ComputeCollectionForm(forms.Form):
+  def __init__(self, campaigns: tuple, *args, **kwargs):
+    super(DataCollectionForm, self).__init__(*args, **kwargs)
+    self.fields["case_study"] = forms.ChoiceField(
+        choices=campaigns, label="Case Study")
 
+  case_study = forms.ChoiceField()
 
 # TEST FORM
 # create a ModelForm
@@ -178,3 +178,7 @@ class DocumentForm(forms.ModelForm):
     model = Manifest  # specify the name of model to use
     fields = "__all__"
 
+
+class UploadFileForm(forms.Form):
+  title = forms.CharField(max_length=50)
+  file = forms.FileField()

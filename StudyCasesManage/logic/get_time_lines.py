@@ -91,8 +91,6 @@ def get_timeline(n: int, screen_name: str):
         social_media_id = account,
     )
     
-    print("TIMELINE:")
-    print(timeline.__str__())
     timeline.save()  # in db
 
     counter429 = 0
@@ -174,6 +172,7 @@ def ea_get_max_post_id(screen_name):
     else:
         print("No hay")
         return None
+
 
 
 def main(screen_names: list):

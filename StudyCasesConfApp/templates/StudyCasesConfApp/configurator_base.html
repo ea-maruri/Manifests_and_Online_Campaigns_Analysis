@@ -1,0 +1,20 @@
+{% extends 'base.html' %} 
+{% block title %}Configurator{% endblock %} 
+
+{% block content %}
+  <!-- Title -->
+  <div class="container mt-5">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
+        <h1 class="display-6">Case Study Configurator</h1>
+        <hr class="my-2"/>
+      </div>
+    </div>
+  </div>
+
+  {% include 'middle/conf-options.html' %}
+
+
+  {% block config_option %}{% endblock %}
+
+{% endblock %}
