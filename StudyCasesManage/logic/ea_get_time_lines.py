@@ -122,6 +122,7 @@ def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
 
                 print("POST", post)
                 post.save()
+                print("POST AGAIN", post)
                 # dr_insert_tweet(conn, candidates_id[0], status.id, None, 
                 # status.created_at.strftime("%Y-%m-%d"), status.full_text, status.user.screen_name, json.dumps(status._json), "N", "N", "N", errorpath)
         else:
@@ -139,6 +140,7 @@ def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
                 
                 print("POST", post)
                 post.save()
+                print("POST AGAIN", post)
                 # dr_insert_tweet(conn, candidates_id[0], status.id, None, 
                 # status.created_at.strftime("%Y-%m-%d"), status.full_text, status.user.screen_name, json.dumps(status._json), "N", "N", "N", errorpath)
     except tweepy.TweepError as e:
@@ -153,7 +155,7 @@ def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
 
 
 def ea_get_max_post_id(screen_name):
-    the_query = """SELECT "StudyCasesManage_post"."post_id", MAX(CAST(public."StudyCasesManage_post"."post_id" as BigInt))
+    the_query = """SELECT "StudyCasesManage_post"."id", MAX(CAST(public."StudyCasesManage_post"."post_id" as BigInt))
 	                FROM public."StudyCasesManage_post"
 	                INNER JOIN public."StudyCasesManage_timeline"
 		                ON (public."StudyCasesManage_timeline"."id" 
@@ -161,7 +163,7 @@ def ea_get_max_post_id(screen_name):
 	                INNER JOIN public."StudyCasesManage_socialmediaaccount"
 		                ON (public."StudyCasesManage_socialmediaaccount"."id"
 			                = public."StudyCasesManage_timeline"."social_media_id_id")
-	                WHERE "StudyCasesManage_socialmediaaccount"."screen_name" = """ + "'" + screen_name + "'" + 'GROUP BY "StudyCasesManage_post"."post_id"'
+	                WHERE "StudyCasesManage_socialmediaaccount"."screen_name" = """ + "'" + screen_name + "'" + 'GROUP BY "StudyCasesManage_post"."id"'
 
     
     print("VALUE MAX POST ID")

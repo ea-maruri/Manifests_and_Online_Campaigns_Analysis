@@ -72,7 +72,9 @@ class Timeline(models.Model):
 
 class Post(models.Model):
   timeline_id = models.ForeignKey(Timeline, on_delete=models.CASCADE)
-  
+  #id = models.BigAutoField(default=0, primary_key=True)  # I creted it becaus I got a problem
+  post_id = models.BigIntegerField(primary_key=False, default=0)
+
   # Must point to Post
   # Reverse query name for 'Post.parent_id' clashes with field name 'Post.post'
   # HINT: Rename field 'Post.post', or add/change a related_name argument to the definition for field 'Post.parent_id'.
