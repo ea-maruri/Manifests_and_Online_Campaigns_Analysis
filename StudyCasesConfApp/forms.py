@@ -21,11 +21,13 @@ SOCIAL_ACCOUNTS = (
 )
 
 
+CAMPAIGN_LABEL = "Case Study"
+
 class DataCollectionForm(forms.Form):
 
   def __init__(self, campaigns: tuple, *args, **kwargs):
     super(DataCollectionForm, self).__init__(*args, **kwargs)
-    self.fields["case_study"] = forms.ChoiceField(choices=campaigns, label="Case Study")
+    self.fields["case_study"] = forms.ChoiceField(choices=campaigns, label=CAMPAIGN_LABEL)
 
 
   case_study = forms.ChoiceField()
@@ -79,7 +81,7 @@ class CreateCandidateForm(forms.Form):
   def __init__(self, campaigns: tuple, *args, **kwargs):
     super(CreateCandidateForm, self).__init__(*args, **kwargs)
     self.fields["case_study"] = forms.ChoiceField(
-        choices=campaigns, label="Case Study")
+        choices=campaigns, label=CAMPAIGN_LABEL)
 
   case_study = forms.ChoiceField()
   
@@ -148,7 +150,7 @@ class DocumentConfForm(forms.Form):
 class AnalysisConf(forms.Form):
   case_study = forms.ChoiceField(
     choices=CHOICES,
-    label="Case Study"
+    label=CAMPAIGN_LABEL
   )
 
   metric = forms.ChoiceField(
@@ -161,9 +163,12 @@ class ComputeCollectionForm(forms.Form):
   def __init__(self, campaigns: tuple, *args, **kwargs):
     super(ComputeCollectionForm, self).__init__(*args, **kwargs)
     self.fields["case_study"] = forms.ChoiceField(
-        choices=campaigns, label="Case Study")
+        choices=campaigns, label=CAMPAIGN_LABEL)
 
   case_study = forms.ChoiceField()
+  from_date = forms.CharField()
+  posts_limit = forms.IntegerField()
+
 
 # TEST FORM
 # create a ModelForm
