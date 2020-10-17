@@ -156,7 +156,7 @@ def data_collection_conf(request):
       print("Campaign")
       print(campaign_name, str(type(campaign_name)))
 
-      compute(request, campaign_name)
+      compute(request, campaign_name, form_info['posts_limit'], form_info['from_date'].replace('/', '-'))
 
       messages.success(
           request,
@@ -217,14 +217,14 @@ def delete_account(request):
   return render(request, "middle/del_account.html")
   
 
-def compute(request, campaign_name: str):
+def compute(request, campaign_name: str, count: int, since: str):
   from StudyCasesManage.logic.ea_get_time_lines import main
 
   screen_names_list = db_util.get_screen_names_list(campaign_name)
   print("Screen names in", campaign_name)
   print(screen_names_list)
   
-  main(screen_names_list)
+  main(screen_names_list, count, since)
 
   out_response = "Computing data collection from " + campaign_name + "...\n\nCheck 'admin'."
   return HttpResponse(out_response)
