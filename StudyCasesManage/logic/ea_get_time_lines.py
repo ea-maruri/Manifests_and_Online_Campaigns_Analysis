@@ -83,7 +83,7 @@ errorpath = './error/error.log'
 from StudyCasesManage.models import Candidate, Post, SocialMediaAccount, Timeline
 
 
-def get_timeline(n: int, screen_name: str):
+def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
     account = SocialMediaAccount.objects.get(screen_name=screen_name)
     print('\n', account)
 
@@ -109,10 +109,11 @@ def get_timeline(n: int, screen_name: str):
         if (max_post_id == None):
             print("U1: " + screen_name)
             #for status in api.user_timeline(screen_name, tweet_mode='extended', since='2020-07-10', count=200):
-            iteration = 0
-            for status in api.user_timeline(screen_name, tweet_mode='extended', since='2020-07-10', count=15):
+            # for status in api.user_timeline(screen_name, tweet_mode='extended', since=since_date, count=count_limit):
+            for status in api.user_timeline(screen_name, tweet_mode='extended', since='2020-10-16', count=count_limit):
                 print("Insertando por primera vez... " + screen_name)
                 post = Post(
+                    post_id = status.id,
                     timeline_id = timeline,
                     post_date = status.created_at.strftime("%Y-%m-%d"),
                     post_text = status.full_text,
@@ -125,9 +126,11 @@ def get_timeline(n: int, screen_name: str):
                 # status.created_at.strftime("%Y-%m-%d"), status.full_text, status.user.screen_name, json.dumps(status._json), "N", "N", "N", errorpath)
         else:
             print("U2: " + screen_name)
-            for status in api.user_timeline(screen_name, tweet_mode='extended', since_id=max_post_id, count=200):
+            # for status in api.user_timeline(screen_name, tweet_mode='extended', since_id=max_post_id, count=count_limit):
+            for status in api.user_timeline(screen_name, tweet_mode='extended', since_id='2020-10-16', count=count_limit):
                 print("Segunda ronda... " + screen_name)
                 post = Post(
+                    post_id = status.id,
                     timeline_id=timeline,
                     post_date=status.created_at.strftime("%Y-%m-%d"),
                     post_text=status.full_text,
@@ -150,7 +153,7 @@ def get_timeline(n: int, screen_name: str):
 
 
 def ea_get_max_post_id(screen_name):
-    the_query = """SELECT "StudyCasesManage_post"."id", MAX(CAST(public."StudyCasesManage_post"."id" as BigInt))
+    the_query = """SELECT "StudyCasesManage_post"."post_id", MAX(CAST(public."StudyCasesManage_post"."post_id" as BigInt))
 	                FROM public."StudyCasesManage_post"
 	                INNER JOIN public."StudyCasesManage_timeline"
 		                ON (public."StudyCasesManage_timeline"."id" 
@@ -158,7 +161,7 @@ def ea_get_max_post_id(screen_name):
 	                INNER JOIN public."StudyCasesManage_socialmediaaccount"
 		                ON (public."StudyCasesManage_socialmediaaccount"."id"
 			                = public."StudyCasesManage_timeline"."social_media_id_id")
-	                WHERE "StudyCasesManage_socialmediaaccount"."screen_name" = """ + "'" + screen_name + "'" + 'GROUP BY "StudyCasesManage_post"."id"'
+	                WHERE "StudyCasesManage_socialmediaaccount"."screen_name" = """ + "'" + screen_name + "'" + 'GROUP BY "StudyCasesManage_post"."post_id"'
 
     
     print("VALUE MAX POST ID")
@@ -175,7 +178,7 @@ def ea_get_max_post_id(screen_name):
 
 
 
-def main(screen_names: list):
+def main(screen_names: list, count: int, since: str = str(datetime.date.today)):
     print("Start collection")
     #get_timeline(60, screen_name)
 
@@ -184,7 +187,7 @@ def main(screen_names: list):
         t = threading.Thread(
             target=get_timeline, 
             name=('thread1'), 
-            args=(60, screen_name)
+            args=(60, screen_name, count, since)
         )
     
         t.start()
