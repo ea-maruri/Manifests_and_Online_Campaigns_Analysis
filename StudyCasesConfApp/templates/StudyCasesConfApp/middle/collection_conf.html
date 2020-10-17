@@ -9,6 +9,30 @@
       </div>
     </div>
 
+
+    <!-- Compute -->
+    <div class="row">
+      <div class="col">
+        {% if compute_data_collect.error %}
+            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+          {% else %}
+            <div class="form-group">
+              <form action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
+                {{compute_data_collect}}
+
+                <input type="submit" class="btn btn-primary" value="Start"></input>
+
+                <div class="d-flex justify-content-end">
+                  <small id="formHelper" class="form-text text-muted">Please choose one Case Study</small>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+      </div>
+    </div>
+    
+
+    <!-- Conf -->
     <div class="row">
       <div class="col-sm-12">
         {% for message in messages %}
@@ -21,12 +45,12 @@
         {% endfor %}
 
         <div class="d-flex justify-content-around">
-          {% if form.error %}
+          {% if conf_data_form.error %}
             <p class="text-danger">Sorry, something went wrong, while loading the form</p>
           {% else %}
             <div class="form-group">
               <form action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
-                {{form}}
+                {{conf_data_form}}
                 <input type="submit" value="Accept"/>
 
                 <div class="d-flex justify-content-end">

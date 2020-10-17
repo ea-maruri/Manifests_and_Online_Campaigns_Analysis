@@ -159,7 +159,7 @@ class AnalysisConf(forms.Form):
 
 class ComputeCollectionForm(forms.Form):
   def __init__(self, campaigns: tuple, *args, **kwargs):
-    super(DataCollectionForm, self).__init__(*args, **kwargs)
+    super(ComputeCollectionForm, self).__init__(*args, **kwargs)
     self.fields["case_study"] = forms.ChoiceField(
         choices=campaigns, label="Case Study")
 

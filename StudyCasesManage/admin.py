@@ -38,7 +38,7 @@ class PostAdmin(admin.ModelAdmin):
   search_fields = ("timeline_id", "parent_id", "post_date")
   list_filter = ("timeline_id", "parent_id", "post_date")
   date_hierarchy = "post_date"
-
+  list_per_page = 100  # maximum 100 rows
 
 
 # Registering Models
