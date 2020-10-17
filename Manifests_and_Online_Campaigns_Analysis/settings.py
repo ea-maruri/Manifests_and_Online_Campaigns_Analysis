@@ -144,7 +144,7 @@ EMAIL_HOST_USER = 'ea.maruri@gmail.com'
 EMAIL_HOST_PASSWORD = '#AlejoMaruriOnGmail14'
 
 
-# Messages to user
+# Messages to user as pops
 try:
     from django.contrib.messages import constants as messages
     MESSAGE_TAGS = {
