@@ -1,4 +1,3 @@
-# from django.core.files.storage import FileSystemStorage
 from django.http.response import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render
@@ -114,6 +113,7 @@ def case_study_conf(request):
           'Account "%s" for %s created successfully.' % (account_to_create, candidate)
       )
   
+
   else:
     conf_cases_form = ConfigureCaseStudyForm()
     create_candidate_form = CreateCandidateForm(campaigns_tuple)
@@ -145,19 +145,23 @@ def data_collection_conf(request):
       print("DO SOMETHING")
 
 
+    # Handle compute data collection
     compute_collection_form = ComputeCollectionForm(campaigns_tuple, request.POST)
     if compute_collection_form.is_valid():
-      print("COMPUTE!!")
       form_info = compute_collection_form.cleaned_data
-      print(form_info)
-
-      # Received as <QuerySet [('Test Study Case - 2020',)]>, for this choose [0][0]
+    
+      # Received as <QuerySet [('Test Study Case - 2020',)]>, for this choose [0][0] which is a str
       campaign_name = Campaign.objects.values_list('name').filter(id=form_info['case_study'])[0][0]
-      print("Campaign")
-      print(campaign_name, str(type(campaign_name)))
+      print("Campaign to collect:", campaign_name, "\nForm info:", form_info)
 
-      compute(request, campaign_name, form_info['posts_limit'], form_info['from_date'].replace('/', '-'))
-
+      #compute(request, campaign_name: str, count: int, since: str, until: str)
+      compute(request, 
+              campaign_name,
+              form_info['posts_limit'], 
+              form_info['from_date'], 
+              form_info['until_date']
+            )
+      
       messages.success(
           request,
           "Computing data collection from " + campaign_name + "...\n\nCheck 'admin'."
@@ -183,17 +187,9 @@ def document_conf(request):
   form = DocumentForm(request.POST or None, request.FILES or None)
 
   if request.method == 'POST' and request.FILES['manifest']: 
-    # manifest = request.FILES['document']
-    # fs = FileSystemStorage()
-    # filename = fs.save(manifest.name, manifest)
-    # uploaded_file_url = fs.url(filename)
-    # print("Upoladed to", uploaded_file_url)
-
     if form.is_valid():
       form_info = form.cleaned_data
-      print("Form info:")
-      print(form_info)
-      print("UPLOAD...")
+      print("Form info:", form_info)
 
       try:
         form.save()  # DO not save, instead update (CHECK IT)
@@ -215,17 +211,13 @@ def document_conf(request):
 
 def delete_account(request):
   return render(request, "middle/del_account.html")
-  
 
-def compute(request, campaign_name: str, count: int, since: str):
+
+
+def compute(request, campaign_name: str, count: int, since: str, until: str):
   from StudyCasesManage.logic.ea_get_time_lines import main
 
   screen_names_list = db_util.get_screen_names_list(campaign_name)
-  print("Screen names in", campaign_name)
-  print(screen_names_list)
+  print("Screen names in %s: %s" %(campaign_name, screen_names_list))
   
-  main(screen_names_list, count, since)
-
-  out_response = "Computing data collection from " + campaign_name + "...\n\nCheck 'admin'."
-  return HttpResponse(out_response)
-
+  main(screen_names=screen_names_list, count=count, until=until, since=since)

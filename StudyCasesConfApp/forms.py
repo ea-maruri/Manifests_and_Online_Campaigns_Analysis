@@ -107,12 +107,6 @@ class CreateCandidateForm(forms.Form):
       required=False
   )
 
-  # candidates_list = forms.CharField(
-  #     widget=forms.Textarea(
-  #         attrs={'placeholder': 'List...', 'readonly': 'true'}),
-  #     label=""
-  # )
-
 
 
 class CreateSocialMediaAccount(forms.Form):
@@ -143,7 +137,6 @@ class DocumentConfForm(forms.Form):
 
   candidate = forms.ChoiceField()
 
-  #document = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
   document = forms.FileField(max_length=1000)
 
 
@@ -166,7 +159,14 @@ class ComputeCollectionForm(forms.Form):
         choices=campaigns, label=CAMPAIGN_LABEL)
 
   case_study = forms.ChoiceField()
-  from_date = forms.CharField()
+  from_date = forms.CharField(
+    widget=forms.TextInput(attrs={"placeholder": "yyyy-mm-dd"}),
+    label='From'
+  )
+  until_date = forms.CharField(
+    widget=forms.TextInput(attrs={"placeholder": "yyyy-mm-dd"}),
+    label='Until'
+  )
   posts_limit = forms.IntegerField()
 
 

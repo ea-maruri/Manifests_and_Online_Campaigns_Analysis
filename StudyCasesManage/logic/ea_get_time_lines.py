@@ -3,7 +3,6 @@ import threading
 import time
 import tweepy
 import json
-from .dr_dbfuncitons import dr_establishConn, pa_getCandidateId
 
 
 # # PAMEALMEIDAS / Twitter Credentials
@@ -80,37 +79,27 @@ errorpath = './error/error.log'
 #             print(e.reason)
 
 
-from StudyCasesManage.models import Candidate, Post, SocialMediaAccount, Timeline
+from StudyCasesManage.models import Post, SocialMediaAccount, Timeline
 
 
 def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
-    account = SocialMediaAccount.objects.get(screen_name=screen_name)
-    print('\n', account)
-
+    # Create a new Timeline given the id (a social media account)
     timeline = Timeline(
-        social_media_id = account,
+        social_media_id = SocialMediaAccount.objects.get(screen_name=screen_name),
     )
     
     timeline.save()  # in db
 
     counter429 = 0
     try:
-        print("X")
-        candidates_id = Candidate.objects.values_list('id')
-        candidates_ids = list()
-        for the_id in candidates_id:
-            candidates_ids.append(the_id)
-        print(candidates_ids)
-
-            # #print(candidates_id)
         max_post_id = ea_get_max_post_id(screen_name)
         print("Max post id:", max_post_id)
         
+        # In the case the user in the given timeline does not have posts
         if (max_post_id == None):
             print("U1: " + screen_name)
-            #for status in api.user_timeline(screen_name, tweet_mode='extended', since='2020-07-10', count=200):
-            # for status in api.user_timeline(screen_name, tweet_mode='extended', since=since_date, count=count_limit):
-            for status in api.user_timeline(screen_name, tweet_mode='extended', since='2020-10-16', count=count_limit):
+            #for status in api.user_timeline(screen_name, tweet_mode='extended', since='2020-10-16', count=200):
+            for status in api.user_timeline(screen_name, tweet_mode='extended', since=since_date, count=count_limit):
                 print("Insertando por primera vez... " + screen_name)
                 post = Post(
                     post_id = status.id,
@@ -122,13 +111,14 @@ def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
 
                 print("POST", post)
                 post.save()
-                print("POST AGAIN", post)
                 # dr_insert_tweet(conn, candidates_id[0], status.id, None, 
                 # status.created_at.strftime("%Y-%m-%d"), status.full_text, status.user.screen_name, json.dumps(status._json), "N", "N", "N", errorpath)
+        
+        #  In the case that a post still exists
         else:
             print("U2: " + screen_name)
-            # for status in api.user_timeline(screen_name, tweet_mode='extended', since_id=max_post_id, count=count_limit):
-            for status in api.user_timeline(screen_name, tweet_mode='extended', since_id='2020-10-16', count=count_limit):
+            #for status in api.user_timeline(screen_name, tweet_mode='extended', since_id='2020-10-16', count=count_limit):
+            for status in api.user_timeline(screen_name, tweet_mode='extended', since_id=max_post_id, count=count_limit):
                 print("Segunda ronda... " + screen_name)
                 post = Post(
                     post_id = status.id,
@@ -138,11 +128,10 @@ def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str):
                     post_as_json=json.dumps(status._json)
                 )
                 
-                print("POST", post)
                 post.save()
-                print("POST AGAIN", post)
                 # dr_insert_tweet(conn, candidates_id[0], status.id, None, 
                 # status.created_at.strftime("%Y-%m-%d"), status.full_text, status.user.screen_name, json.dumps(status._json), "N", "N", "N", errorpath)
+    
     except tweepy.TweepError as e:
         if (e.status == "Twitter error response: status code = 429"):
             counter429 += 1
@@ -166,54 +155,57 @@ def ea_get_max_post_id(screen_name):
 	                WHERE "StudyCasesManage_socialmediaaccount"."screen_name" = """ + "'" + screen_name + "'" + 'GROUP BY "StudyCasesManage_post"."id"'
 
     
-    print("VALUE MAX POST ID")
-    value = ""
     result = Post.objects.raw(the_query)
+    posts_ids = list()
     if len(result) > 0:
         for val in result:
-            value = val
-            print(val)
-        return value
+            posts_ids.append(val.post_id) # is an int, val is a Post
+            
+        return max(posts_ids)
     else:
-        print("No hay")
         return None
 
 
+def execute_collection(screen_names: list, count: int, until: str, since: str):
+    print("Start collection...")
 
-def main(screen_names: list, count: int, since: str = str(datetime.date.today)):
-    print("Start collection")
-    #get_timeline(60, screen_name)
+    since_date = datetime.datetime.strptime(since, '%Y-%m-%d')
+    print('Since Date:', since_date.date())
 
+    until_date = datetime.datetime.strptime(until, '%Y-%m-%d')
+    print('Until Date:', until_date.date())
+
+    if since_date < until_date:
+        print('since is less than until')
+
+    #while since_date <= until_date:
     # while True:
-    for screen_name in screen_names:
-        t = threading.Thread(
-            target=get_timeline, 
-            name=('thread1'), 
-            args=(60, screen_name, count, since)
-        )
+    # thread_num = 0
+    # for screen_name in screen_names:
+    #     t = threading.Thread(
+    #         target=get_timeline,
+    #         name=('thread' + str(thread_num) + '-' + screen_name),
+    #         args=(60, screen_name, count, since)
+    #     )
+
+    #     t.start()
+    #     t.join()
+
+    #     thread_num += 1
+
+    # print('About to sleep 20 minutes')
+    # time.sleep(20*60)
+
+
+def main(screen_names: list, count: int, until: str, since: str = str(datetime.date.today)):
     
-        t.start()
-        t.join()
+    main_thread = threading.Thread(
+        target=execute_collection,
+        name=('Collector - ' + since + until),
+        args=(screen_names, count, until, since)
+    )
+    main_thread.start()
+    main_thread.join()
 
-    #     print('About to sleep 20 minutes')
-    #     time.sleep(20*60)
-    # if __name__ == '__main__':
-    #     print("Suppose to do someting")
-        # conn = pa_setserverconn()
+    #execute_collection(screen_names, count, since)
 
-        # values = dr_get_candidatos(conn, errorpath)
-
-        # print(values)
-
-        # while True:
-
-        #     for row in values:
-        #         id = row[0]
-        #         screen_name = row[1]
-        #         t = threading.Thread(target=getTimeline2019, name=(
-        #             'thread1'), args=(60, screen_name))
-        #         t.start()
-        #         t.join()
-
-        #     print('About to sleep 20 minutes')
-        #     time.sleep(20*60)

@@ -23,7 +23,7 @@ class Candidate(models.Model):
   party = models.CharField(max_length=20, blank=True, null=True)
 
   def __str__(self):
-    return "%s %s. In campaign: %s" %(self.name, self.lastname, self.campaign_id)
+    return "%s %s. (%s)" %(self.name, self.lastname, self.campaign_id)
 
 
 # class CandidatesCampaigns(models.Model):
@@ -45,7 +45,7 @@ class Manifest(models.Model):
   # Maybe a path for the document location
 
   def __str__(self):
-    return "candidate: %s, collect_date: %s, release_date: %s, provider: %s, type: %s" %(self.candidate_id, self.collect_date, self.release_date, self.provider, self.type)
+    return "Manifest of: %s, collect_date: %s" %(self.candidate_id, self.collect_date)
 
 
 class SocialMediaAccount(models.Model):

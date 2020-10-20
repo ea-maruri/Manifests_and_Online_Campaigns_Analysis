@@ -6,52 +6,55 @@
     <div class="row">
       <div class="col-sm-12 text-center">
         <h3 class="mb-5">Data Collection Configuration</h3>
+
+        <!-- Show info messages -->
+        {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message | safe }}
+          </div>
+        {% endfor %}
       </div>
     </div>
 
 
+    <!-- Conf -->
+    {% comment %} <div class="row">
+      <div class="col-sm-12">
+        {% if conf_data_form.error %}
+            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
+        {% else %}
+          <div class="form-group">
+            <form action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
+              {{conf_data_form}}
+
+              <input type="submit" class="btn btn-primary" value="Start"></input>
+
+              <div class="d-flex justify-content-end">
+                <small id="formHelper" class="form-text text-muted">Please choose one Case Study</small>
+              </div>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div> {% endcomment %}
+    
+
     <!-- Compute -->
     <div class="row">
-      <div class="col">
-        {% if compute_data_collect.error %}
+      <div class="col-sm-12">
+    
+        <div class="d-flex justify-content-around">
+          {% if compute_data_collect.error %}
             <p class="text-danger">Sorry, something went wrong, while loading the form</p>
           {% else %}
             <div class="form-group">
               <form action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
                 {{compute_data_collect}}
-
-                <input type="submit" class="btn btn-primary" value="Start"></input>
-
-                <div class="d-flex justify-content-end">
-                  <small id="formHelper" class="form-text text-muted">Please choose one Case Study</small>
-                </div>
-              </form>
-            </div>
-          {% endif %}
-      </div>
-    </div>
-    
-
-    <!-- Conf -->
-    <div class="row">
-      <div class="col-sm-12">
-        {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              {{ message | safe }}
-            </div>
-        {% endfor %}
-
-        <div class="d-flex justify-content-around">
-          {% if conf_data_form.error %}
-            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
-          {% else %}
-            <div class="form-group">
-              <form action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
-                {{conf_data_form}}
-                <input type="submit" value="Accept"/>
+                
+                <input type="submit" class="btn btn-primary mt-3" value="Accept"/>
 
                 <div class="d-flex justify-content-end">
                   <small id="formHelper" class="form-text text-muted">Please fill all data</small>
@@ -64,4 +67,5 @@
     </div>
 
     <hr class="my-5 w-75"/>
+    
 {% endblock %}
