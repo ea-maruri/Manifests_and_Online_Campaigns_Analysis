@@ -14,50 +14,14 @@
 
   {% include 'middle/conf-options.html' %}
 
-  <div class="container">
+  <div class="container mb-5">
     <div class="row">
       <div class="col-sm-12 text-center">
-        <h3 class="mb-5">Choos an <mark>option</mark></h3>
+        <h3 class="mb-5"><mark>Choose an option</mark></h3>
       </div>
     </div>
   </div>
-
 
   {% block config_option %}{% endblock %}
-
-  
-  <!-- Suppose A specific form -->
-  <div class="container">
-
-    <!-- Collect Data -->
-    <div class="row">
-      <div class="col-sm-12 text-center">
-        <h3 class="mb-5">Collect Data</h3>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-12">
-
-        <div class="d-flex justify-content-around">
-          {% if analysis_conf.error %}
-            <p class="text-danger">Sorry, something went wrong, while loading the form</p>
-          {% else %}
-            <div class="form-group">
-              <form action="" method="POST">{% csrf_token %} 
-                {{analysis_conf}}
-                <input type="submit" value="Start"/>
-
-                <div class="d-flex justify-content-end">
-                  <small id="formHelper" class="form-text text-muted">Please fill all data</small>
-                </div>
-              </form>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-
-  </div>
 
 {% endblock %}
