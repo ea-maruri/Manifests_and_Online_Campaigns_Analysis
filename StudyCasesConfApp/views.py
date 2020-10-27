@@ -14,9 +14,10 @@ from .forms import CreateCandidateForm, ConfigureCaseStudyForm, DataCollectionFo
 # Own utilities
 import StudyCasesManage.logic.ea_db_utilities as db_util
 
-# Constant
+# Constants
 ERROR_MESSAGE = 'Something went wrong: '
 CONF_PAGE = 'configurator.html'
+IS_COLLECTING = False
 
 
 # Create your views here.
@@ -61,7 +62,7 @@ def case_study_conf(request):
         )
 
 
-    # Hnadle creat candidate form
+    # Handle create candidate form
     create_candidate_form = CreateCandidateForm(campaigns_tuple, request.POST)
     if create_candidate_form.is_valid():
       form_info = create_candidate_form.cleaned_data
@@ -121,8 +122,9 @@ def case_study_conf(request):
   
 
   forms = [conf_cases_form, create_candidate_form, create_social_account]
+  forms_names = ['Case Study', 'Candidate', 'Account']
 
-  return render(request, "middle/case_study_conf.html", {"forms": forms})
+  return render(request, "middle/case_study_conf.html", {"forms": forms, "forms_names": forms_names})
 
 
 
@@ -145,17 +147,17 @@ def data_collection_conf(request):
       print("DO SOMETHING")
 
 
-    # Handle compute data collection
+    # Handle compute data collection form
     compute_collection_form = ComputeCollectionForm(campaigns_tuple, request.POST)
     if compute_collection_form.is_valid():
       form_info = compute_collection_form.cleaned_data
     
-      # Received as <QuerySet [('Test Study Case - 2020',)]>, for this choose [0][0] which is a str
+      # Received as <QuerySet [('Test Study Case - 2020',)]>, for this, choose [0][0] which is a str
       campaign_name = Campaign.objects.values_list('name').filter(id=form_info['case_study'])[0][0]
       print("Campaign to collect:", campaign_name, "\nForm info:", form_info)
 
-      #compute(request, campaign_name: str, count: int, since: str, until: str)
-      compute(request, 
+      #compute_collection(campaign_name: str, count: int, since: str, until: str)
+      compute_collection(
               campaign_name,
               form_info['posts_limit'], 
               form_info['from_date'], 
@@ -164,7 +166,8 @@ def data_collection_conf(request):
       
       messages.success(
           request,
-          "Computing data collection from " + campaign_name + "...\n\nCheck 'admin'."
+          "Computing data collection for " + campaign_name + '.' + 
+          " From: " + form_info['from_date'] + " To: " + form_info['until_date'] + "... Check 'your_url/admin/'."
       )
 
 
@@ -213,8 +216,7 @@ def delete_account(request):
   return render(request, "middle/del_account.html")
 
 
-
-def compute(request, campaign_name: str, count: int, since: str, until: str):
+def compute_collection(campaign_name: str, count: int, since: str, until: str):
   from StudyCasesManage.logic.ea_get_time_lines import main
 
   screen_names_list = db_util.get_screen_names_list(campaign_name)

@@ -4,6 +4,7 @@ from django.db.models.deletion import PROTECT
 
 import datetime
 
+
 # Models for Database are created here as Python classes.
 class Campaign(models.Model):
   name = models.CharField(max_length=50, unique=True)  # verbose_name="something" to change the output in admin panel
@@ -24,14 +25,6 @@ class Candidate(models.Model):
 
   def __str__(self):
     return "%s %s. (%s)" %(self.name, self.lastname, self.campaign_id)
-
-
-# class CandidatesCampaigns(models.Model):
-#   campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name="Campaign")
-#   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
-
-#   def __str__(self):
-#     return "%s in %s"  % (self.candidate_id, self.campaign_id)
 
 
 class Manifest(models.Model):
@@ -89,6 +82,9 @@ class Post(models.Model):
     return "parent: %s, post_date: %s, text: %s" %(self.parent_id, self.post_date, self.post_text)
 
 
+# class CandidatesCampaigns(models.Model):
+#   campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name="Campaign")
+#   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
 
-## TEST MODELS
-
+#   def __str__(self):
+#     return "%s in %s"  % (self.candidate_id, self.campaign_id)

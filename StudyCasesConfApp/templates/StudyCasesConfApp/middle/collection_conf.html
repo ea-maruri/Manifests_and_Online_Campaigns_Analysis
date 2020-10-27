@@ -51,7 +51,8 @@
             <p class="text-danger">Sorry, something went wrong, while loading the form</p>
           {% else %}
             <div class="form-group">
-              <form action="" method="POST" class="d-flex flex-column">{% csrf_token %} 
+              {% comment %} {% csrf_token %}  {% endcomment %}
+              <form action="" method="POST" class="d-flex flex-column">{% csrf_token %}
                 {{compute_data_collect}}
                 
                 <input type="submit" class="btn btn-primary mt-3" value="Accept"/>

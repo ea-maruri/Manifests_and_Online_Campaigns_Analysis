@@ -12,5 +12,5 @@ urlpatterns = [
   path('analysis-conf/', views.analysis_conf, name="analysis_conf"),
   path('document-conf/', views.document_conf, name="doc_conf"),
   path('del-account/', views.delete_account, name="del_account"),
-  path('compute/', views.compute, name="compute"),
+  path('compute/', views.compute_collection, name="compute"),
 ]
