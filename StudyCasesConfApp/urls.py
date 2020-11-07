@@ -13,4 +13,5 @@ urlpatterns = [
   path('document-conf/', views.document_conf, name="doc_conf"),
   path('del-account/', views.delete_account, name="del_account"),
   path('compute/', views.compute_collection, name="compute"),
+  path('get-manifest/', views.get_manifest, name="get_manifest")
 ]
