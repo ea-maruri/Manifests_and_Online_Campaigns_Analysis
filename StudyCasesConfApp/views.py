@@ -1,8 +1,17 @@
+import base64
+from django.http import request
 from django.http.response import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
+import matplotlib.pyplot as plt
+# import seaborn as sns
+# import numpy as np
+import io
+import urllib
+import base64
 
 
 # Models
@@ -180,7 +189,77 @@ def data_collection_conf(request):
 
 
 def analysis_conf(request):
-  analysis_conf_form = AnalysisConf()
+  campaigns_tuple = db_util.get_campaigns_tuple()
+  analysis_conf_form = AnalysisConf(campaigns_tuple, request.POST)
+
+  if request.method == 'POST':
+    if analysis_conf_form.is_valid():
+      form_info = analysis_conf_form.cleaned_data
+      campaign = Campaign.objects.get(id=form_info['case_study'])
+      candidates = Candidate.objects.values_list('id', 'name', 'lastname').filter(campaign_id=campaign)
+      print('Candidates:', candidates)
+
+      for candidate in candidates:
+        manif = db_util.get_manifest(candidate[1] + ' ' + candidate[2])  # str
+        print(manif)
+        from StudyCasesManage.logic.ea_data_process import document_content, process_data, posts_content
+
+        manif_content = document_content(manif)
+        if "Error" in manif_content:
+          print(manif_content)
+          return HttpResponse('Get a manifest ' + manif_content)
+
+        posts_text = posts_content(cand_name=candidate[1] + ' ' + candidate[2])
+        if "Error" in posts_text:
+          print(posts_text)
+          return HttpResponse('Get a manifest ' + posts_text)
+
+        # print('Posts text\n', posts_text)
+        metric = int(form_info['metric'])
+        print('Metric:', metric)
+        result = process_data(manifest_content=manif_content, posts_grouped=posts_text, metric=metric)
+
+        if result[0] == 1:
+          # values_in_manifestos = list()
+          # values_in_manifestos_npMatrix = np.array(values_in_manifestos)
+          # heat_map = sns.heatmap(np.transpose(values_in_manifestos_npMatrix), cmap='Blues',
+          #                        annot=labels_values_in_manifestos, linewidths=.5, fmt='',
+          #                        annot_kws={"size": 17}, cbar=False)
+          # heat_map.set_yticklabels(labels_y, rotation=0, fontsize=17)
+          # heat_map.set_xticklabels(candidates_in_manifestos, rotation=25, fontsize=17)
+          # #cbar = heat_map.collections[0].colorbar
+          #cbar.ax.tick_params(labelsize=12)
+          # plt.xlabel("Candidates", fontsize=18)
+          # #plt.ylabel("Evaluated Metrics", fontsize=16)
+          # plt.title("Candidate Timelines versus Manifestos", fontsize=24)
+          # plt.savefig("Candidate Timelines versus Manifestos - Comparison.pdf", bbox_inches='tight')
+          # plt.show()
+
+          similarities = result[1]  # a dict
+    
+          keys = []
+          for k in similarities.keys():
+            keys.append(k)
+
+          vals = []
+          for v in similarities.values():
+            vals.append(v)
+          
+          fig = plt.figure(figsize =(5, 5)) 
+          plt.pie(vals, labels = keys)
+          
+          # plt.plot(range(10))
+          # fig = plt.gcf()
+          buf = io.BytesIO()
+          fig.savefig(buf, format='png')
+          buf.seek(0)
+          string = base64.b64encode(buf.read())
+          uri = urllib.parse.quote(string)
+          return render(request, 'result.html', {'data': uri})
+
+    else:
+      print('Something')
+
   return render(request, "middle/analysis_conf.html", {"form": analysis_conf_form})
 
 
@@ -216,6 +295,29 @@ def delete_account(request):
   return render(request, "middle/del_account.html")
 
 
+def get_manifest(request):
+  candidate_name = 'Jorge Yunda'  # 'Guillermo Lasso'
+  manif = db_util.get_manifest(candidate_name)  # str
+  print(manif)
+  from StudyCasesManage.logic.ea_data_process import document_content, process_data, posts_content
+  
+  manif_content = document_content(manif)
+  if "Error" in manif_content:
+    print(manif_content)
+    return HttpResponse('Get a manifest ' + manif_content)
+  
+  posts_text = posts_content(cand_name=candidate_name)
+  if "Error" in posts_text:
+    print(posts_text)
+    return HttpResponse('Get a manifest ' + posts_text)
+
+  print('Posts text\n', posts_text)
+  posts_text = "Hello, this is a test"
+  process_data(manifest_content=manif_content, posts_grouped=posts_text)
+  return HttpResponse('Get a manifest ' + manif)
+
+
+# Not a view
 def compute_collection(campaign_name: str, count: int, since: str, until: str):
   from StudyCasesManage.logic.ea_get_time_lines import main
 

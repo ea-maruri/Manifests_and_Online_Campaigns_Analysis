@@ -212,8 +212,8 @@ def execute_collection(screen_names: list, count: int, since: str, until: str):
                 thread_num += 1
                 iteration += 1
 
-            print('About to sleep 10 minutes', Thread.name, 'at:', str(datetime.datetime.now()))
-            time.sleep(10*60)
+            print('About to sleep 20 minutes', threading.current_thread(), 'at:', str(datetime.datetime.now()))
+            time.sleep(20*60)
 
 
 def main(screen_names: list, count: int, until: str, since: str = str(datetime.date.today)):
@@ -225,6 +225,8 @@ def main(screen_names: list, count: int, until: str, since: str = str(datetime.d
     )
     main_thread.start()
     main_thread.join()
+
+    print('Collection Process finished!')
 
     #execute_collection(screen_names, count, since)
 
