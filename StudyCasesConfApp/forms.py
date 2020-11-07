@@ -6,6 +6,12 @@ from django.forms.widgets import DateInput
 
 
 # iterable
+METRICS = (
+  ("1", "Cosine"),
+  ("2", "L1"),
+  ("3", "L2"),
+)
+
 CHOICES = (
   ("1", "One"),
   ("2", "Two"),
@@ -141,14 +147,15 @@ class DocumentConfForm(forms.Form):
 
 
 class AnalysisConf(forms.Form):
-  case_study = forms.ChoiceField(
-    choices=CHOICES,
-    label=CAMPAIGN_LABEL
-  )
+  def __init__(self, campaigns: tuple, *args, **kwargs):
+    super(AnalysisConf, self).__init__(*args, **kwargs)
+    self.fields["case_study"] = forms.ChoiceField(choices=campaigns, label=CAMPAIGN_LABEL)
+
+  case_study = forms.ChoiceField()
 
   metric = forms.ChoiceField(
-      choices=CHOICES,
-      label="Metric"
+    choices=METRICS,
+    label="Metric"
   )
 
 
