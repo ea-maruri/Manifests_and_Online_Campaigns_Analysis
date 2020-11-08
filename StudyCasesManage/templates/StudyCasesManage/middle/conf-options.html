@@ -12,7 +12,7 @@
   
     <div class="container my-5">
       <div class="row">
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
           <div class="d-flex flex-column">
             <button type="button" class="btn btn-warning my-2">
               <a class="nav-link text-dark" href="{% url 'home' %}#visualizer-section">
@@ -21,33 +21,17 @@
             </button>
             <button type="button" class="btn btn-warning my-2">
               <a class="nav-link text-dark" href="{% url 'case_conf' %}">
-                <strong>Create Entity</strong>
+                <strong>Create a Entity</strong>
               </a>
             </button>
           </div>
         </div>
 
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
           <div class="d-flex flex-column">
-            <button type="button" class="btn btn-warning my-2">
-            <!-- <a class="nav-link text-warning ml-4" href="{% url 'home' %}"> -->
-              <a class="nav-link text-dark" href="{% url 'case_conf' %}">
-                <strong>Configure Case Study</strong>
-              </a>
-            </button>
             <button type="button" class="btn btn-warning my-2">
               <a class="nav-link text-dark" href="{% url 'data_collect_conf' %}">
                 <strong>Configure Data Collection</strong>
-              </a>
-            </button>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="d-flex flex-column">
-            <button type="button" class="btn btn-warning my-2">
-              <a class="nav-link text-dark" href="{% url 'doc_conf' %}">
-                <strong>Supply/Unlink Document</strong>
               </a>
             </button>
             <button type="button" class="btn btn-warning my-2">
@@ -58,8 +42,13 @@
           </div>
         </div>
 
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
           <div class="d-flex flex-column">
+            <button type="button" class="btn btn-warning my-2">
+              <a class="nav-link text-dark" href="{% url 'doc_conf' %}">
+                <strong>Supply/Unlink Document</strong>
+              </a>
+            </button>
             <button type="button" class="btn btn-warning my-2">
               <a class="nav-link text-dark" href="{% url 'del_account' %}">
                 <strong>Delete Account</strong>
