@@ -1,4 +1,5 @@
 import base64
+from math import cos
 from django.http import request
 from django.http.response import HttpResponse
 from django.contrib import messages
@@ -199,6 +200,12 @@ def analysis_conf(request):
       candidates = Candidate.objects.values_list('id', 'name', 'lastname').filter(campaign_id=campaign)
       print('Candidates:', candidates)
 
+      cosine_results = list()
+      cosine_results_dict = dict()
+
+      metric = int(form_info['metric'])
+      print('Metric:', metric)
+      
       for candidate in candidates:
         manif = db_util.get_manifest(candidate[1] + ' ' + candidate[2])  # str
         print(manif)
@@ -215,8 +222,6 @@ def analysis_conf(request):
           return HttpResponse('Get a manifest ' + posts_text)
 
         # print('Posts text\n', posts_text)
-        metric = int(form_info['metric'])
-        print('Metric:', metric)
         result = process_data(manifest_content=manif_content, posts_grouped=posts_text, metric=metric)
 
         if result[0] == 1:
@@ -235,28 +240,26 @@ def analysis_conf(request):
           # plt.savefig("Candidate Timelines versus Manifestos - Comparison.pdf", bbox_inches='tight')
           # plt.show()
 
+          cosine_results.append(result[1])
+          cosine_results_dict[candidate[1] + ' ' + candidate[2]] = result[1]
           similarities = result[1]  # a dict
-    
-          keys = []
-          for k in similarities.keys():
-            keys.append(k)
+          cosine_results_dict[candidate[1] + ' ' + candidate[2]] = similarities
 
-          vals = []
-          for v in similarities.values():
-            vals.append(v)
-          
-          fig = plt.figure(figsize =(5, 5)) 
-          plt.pie(vals, labels = keys)
-          
-          # plt.plot(range(10))
-          # fig = plt.gcf()
-          buf = io.BytesIO()
-          fig.savefig(buf, format='png')
-          buf.seek(0)
-          string = base64.b64encode(buf.read())
-          uri = urllib.parse.quote(string)
-          return render(request, 'result.html', {'data': uri})
+      if metric == 1:
+        print(cosine_results_dict)
+        plt.bar(range(len(cosine_results_dict)), list(cosine_results_dict.values()), align='center')
+        plt.xticks(range(len(cosine_results_dict)), list(cosine_results_dict.keys()))
 
+        fig = plt.gcf()
+        buf = io.BytesIO()
+        fig.savefig(buf, format='png')
+        buf.seek(0)
+        string = base64.b64encode(buf.read())
+        uri = urllib.parse.quote(string)
+        return render(request, 'result.html', {'data': uri})
+
+      else:
+        print('No Metric received!!!')
     else:
       print('Something')
 

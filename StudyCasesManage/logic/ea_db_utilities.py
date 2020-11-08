@@ -1,3 +1,4 @@
+from typing import Counter
 from StudyCasesManage.models import Campaign, Candidate, Manifest, Post, SocialMediaAccount, Timeline
 
 
@@ -46,11 +47,11 @@ def get_manifest(candidate_complete_name: str):
   print(candidates)
 
   try:
-    print("TRY:", candidate_complete_name.split()[0], candidate_complete_name.split()[1])
+    # print("TRY:", candidate_complete_name.split()[0], candidate_complete_name.split()[1])
     candidate = Candidate.objects.get(name=candidate_complete_name.split()[0], lastname=candidate_complete_name.split()[1])
     manifest = Manifest.objects.filter(candidate_id=candidate)[0]
-    print('Received candidate:', candidate)
-    print('Manifest to return', manifest)
+    # print('Received candidate:', candidate)
+    # print('Manifest to return', manifest)
     return manifest.manifest.name
   
   except Exception as e:
@@ -59,23 +60,27 @@ def get_manifest(candidate_complete_name: str):
 
 def get_posts_by_candidate(cand_name):
   try:
-    print('Data in "get_posts_by_candidate"')
+    # print('Data in "get_posts_by_candidate"')
     candidate = Candidate.objects.get(name=cand_name.split()[0], lastname=cand_name.split()[1])
-    print(candidate)
+    # print(candidate)
     account = SocialMediaAccount.objects.get(candidate_id=candidate)
-    print(account)
+    # print(account)
     timeline = Timeline.objects.get(social_media_id=account)
-    print(timeline)
-    posts = Post.objects.values_list('post_text').filter(timeline_id=timeline)
-    print(posts)
-    print('Posts', len(posts))
+    # print(timeline)
+    # posts = Post.objects.values_list('post_text').filter(timeline_id=timeline)
+    # print(posts)
+    # print('Posts', len(posts))
     
     posts_content = ''
-    for post_text in Post.objects.values_list('post_text').filter():
+    counter = 0
+    for post in Post.objects.values_list('post_text').filter(timeline_id=timeline):
       # post_text is a tuple, for this, choos zero position
-      # print('Post text:', post_text[0])
-      posts_content += post_text[0]
+      # print('Post:', post)
+      posts_content += post[0]
+      counter += 1
 
+    print('Posts num:', counter)
+    
     return posts_content
   
   except Exception as e:

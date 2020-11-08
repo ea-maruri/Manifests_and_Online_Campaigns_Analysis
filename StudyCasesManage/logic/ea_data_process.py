@@ -38,32 +38,17 @@ def posts_content(cand_name: str):
   posts_content = get_posts_by_candidate(cand_name=cand_name)
   
   return posts_content
-  # for post in candidate.get_list_of_only_posts():
-  #   posts_grouped += post
-
-  #   # Compare all the posts of a candidate with its manifest (as query)
-  #   posts_as_docs.append(posts_grouped)
-
-  #   print("Similarity between %s posts and its manifest:" % (candidate.get_name() + "-" + candidate.get_screen_name()))
-  #   cosine = compute_similarity(posts_grouped, manifest_content)
-  #   manifest_similarities["similar"] = cosine
-  #   manifest_similarities["not-similar"] = 1.0 - cosine
-
-  #   m_s_df = pd.DataFrame(manifest_similarities, index=[0]).T
-  #   m_s_df.to_csv('./../out/pies/' + candidate.get_name() + "_manifest_sim" + doc_name + ".csv")
-  #   print("Sim:")
-  #   print(m_s_df)
 
 
-def compute_similarity(text1: str, text2: str):
+def compute_cosine_similarity(text1: str, text2: str):
   WORD = re.compile(r'\w+')
 
   vector1 = text_to_vector(text1, WORD)
   vector2 = text_to_vector(text2, WORD)
 
-  print('Vectors')
-  print(vector1)
-  print(vector2)
+  # print('Vectors')
+  # print(vector1)
+  # print(vector2)
 
   return get_cosine(vector1, vector2)
 
@@ -98,11 +83,11 @@ def process_data(posts_grouped: str, manifest_content: str, metric: int):
 
 
 def do_cosine_similarity(posts_grouped: str, manifest_content: str):
-  cosine = compute_similarity(posts_grouped, manifest_content)
+  cosine = compute_cosine_similarity(posts_grouped, manifest_content)
   manifest_similarities = dict()
   manifest_similarities["similar"] = cosine
-  manifest_similarities["not-similar"] = 1.0 - cosine
-
+  # manifest_similarities["not-similar"] = 1.0 - cosine
   # print('\nManifest-Similarities\n', manifest_similarities)
 
-  return manifest_similarities
+  # return manifest_similarities
+  return cosine
