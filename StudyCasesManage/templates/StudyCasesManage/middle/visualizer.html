@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Visualizer</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -13,12 +14,10 @@
   <body>
   
     <!-- Title -->
-    <div class="container mt-5" id="visualizer-section">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container text-center">
-          <h1 class="display-6" id="visualizer">Case Study Visualizer</h1>
-          <hr class="my-2" />
-        </div>
+    <div class="jumbotron jumbotron-fluid" id="visualizer-section">
+      <div class="container text-center">
+        <h1 class="display-6" id="visualizer">Case Study Visualizer</h1>
+        <hr class="my-2" />
       </div>
     </div>
 
@@ -32,17 +31,16 @@
           <div class="btn-group-vertical mr-auto mb-3" role="group" aria-label="">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-secondary" title="Select a Case Study">Select a Case Study</button>
-              <button id="dropdownId" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false">    
-              </button>
+
+              <button id="dropdownId" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 
               <div class="dropdown-menu" aria-labelledby="dropdownId">
                 {% if campaigns %}
                   {% for camp in campaigns %}
-                    <a class="dropdown-item" href="#">{{camp.description}}**</a>
+                    <a class="dropdown-item" href="#">{{camp.name}}</a>
                   {% endfor %}
                 {% else %}
-                  <a class="dropdown-item" href="#">There are no <strong>study cases</strong> yet</a>
+                  <p class="dropdown-item" href="#">There are no <strong>study cases</strong> yet</p>
                 {% endif %}
               </div>
             </div>
@@ -66,7 +64,7 @@
               <div class="dropdown-menu" aria-labelledby="dropdownId">
                 {% if candidates %}
                   {% for candidate in candidates %}
-                    <a class="dropdown-item" href="#">{{candidate}}**</a>
+                    <a class="dropdown-item" href="#">{{candidate}}</a>
                   {% endfor %}
                 {% else %}
                   <a class="dropdown-item" href="#">There are no <strong>candidates</strong> yet</a>

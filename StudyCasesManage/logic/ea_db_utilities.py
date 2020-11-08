@@ -2,6 +2,26 @@ from typing import Counter
 from StudyCasesManage.models import Campaign, Candidate, Manifest, Post, SocialMediaAccount, Timeline
 
 
+def get_all_campaigns():
+  """Returns a list of Campaigns in the model"""
+  campaigns_list = list()
+  for camp in Campaign.objects.all():
+    campaigns_list.append(camp)
+  
+  return campaigns_list
+
+
+
+def get_all_documents():
+  """Returns a list of Documents in the model"""
+  docs_list = list()
+  for doc in Manifest.objects.all():
+    docs_list.append(doc)
+  
+  return docs_list
+
+
+
 def get_campaigns_tuple():
   """Returns a list of Campaigns (id, name) in the model"""
   campaigns_list = list()
@@ -41,6 +61,7 @@ def get_screen_names_list(campaign_name: str):
   return screen_names_list
 
 
+
 def get_manifest(candidate_complete_name: str):
   """Returns a manifest given a candidate name"""
   candidates = Candidate.objects.all()
@@ -56,6 +77,7 @@ def get_manifest(candidate_complete_name: str):
   
   except Exception as e:
     return 'Error at "get_manifest:" ' + str(e)
+
 
 
 def get_posts_by_candidate(cand_name):

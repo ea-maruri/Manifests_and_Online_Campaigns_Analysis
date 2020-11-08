@@ -18,7 +18,8 @@
   <div class="container">
     <div class="row">
 
-      <div class="col-sm-12 col-md-7">
+      {% comment %} <div class="col-sm-12 col-md-7"> {% endcomment %}
+      <div class="col-sm-12 col-md-8">
 
         <!-- Table -->  
         <div class="d-flex-column">
@@ -30,41 +31,42 @@
           <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
             <thead class="thead-inverse">
               <tr>
+                <th scope="col">Id</th>
                 <th scope="col">Name</th>
+                <th scope="col">Description</th>
                 <th scope="col">Date Start</th>
                 <th scope="col">Date End</th>
-                <th scope="col">Num. of candidates</th>
               </tr>
             </thead>
 
             <tbody>
-
               {% if campaigns %}
                 {% for camp in campaigns %}
                   <tr>
-                    <th scope="row">{{camp.description}}</hd>
+                    <td class="text-right">{{camp.id}}</td>
+                    <td>{{camp.name}}</td>
+                    <td>{{camp.description}}</td>
                     <td>{{camp.start_date}}</td>
                     <td>{{camp.end_date}}</td>
-                    <td class="text-right">{{camp.id}}</td>
                   </tr>
                 {% endfor %}
               {% else %}
                 <p>There are no <strong>study cases</strong> yet</p>
               {% endif %}
-
             </tbody>
           </table>
 
         </div>
+
       </div>
 
       <!-- Extra Data -->
-      <div class="col-sm-12 col-md-5">
+      {% comment %} <div class="col-sm-12 col-md-5">
         <h3 class="text-center">More info...<h3>
         <div style="height: 200px; border: 1px solid #000000">
           Some
         </div>
-      </div>
+      </div> {% endcomment %}
 
     </div>
   </div>
