@@ -1,0 +1,67 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Configuration</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+
+  <body>
+
+    <div id="mySidenav" class="sidenav mt-5">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      {% comment %} <a href="#">About</a> {% endcomment %}
+      
+      {% comment %} <button type="button" class="btn btn-warning my-2">
+        <a class="nav-link text-dark" href="{% url 'home' %}#visualizer-section">
+          <strong>Go to Visualizer </strong>
+        </a>
+      </button> {% endcomment %}
+      <button type="button" class="btn btn-block btn-warning my-2">
+        <a class="nav-link text-dark p-0" href="{% url 'case_conf' %}">
+          <strong>Campaign Configuration</strong>
+        </a>
+      </button>
+      
+      <button type="button" class="btn btn-block btn-warning my-2">
+        <a class="nav-link text-dark p-0" href="{% url 'data_collect_conf' %}">
+          <strong>Data Collection</strong>
+        </a>
+      </button>
+      
+      <button type="button" class="btn btn-block btn-warning my-2">
+        <a class="nav-link text-dark p-0" href="{% url 'analysis_conf' %}">
+          <strong>Analysis</strong>
+        </a>
+      </button>
+
+      <button type="button" class="btn btn-block btn-warning my-2">
+        <a class="nav-link text-dark p-0" href="{% url 'doc_conf' %}">
+          <strong>Supply/Unlink Document</strong>
+        </a>
+      </button>
+      
+      <button type="button" class="btn btn-block btn-warning my-2">
+        <a class="nav-link text-dark p-0" href="{% url 'del_account' %}">
+          <strong>Account</strong>
+        </a>
+      </button>
+    </div>
+
+    <div id="main">
+      <h2>Configurator</h2>
+      {% comment %} <p>Click on the element below to open the side navigation menu, and push this content to the right.</p> {% endcomment %}
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    </div>
+
+
+    <!-- JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+  </body>
+</html>

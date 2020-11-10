@@ -3,24 +3,22 @@
 
 {% block content %}
   <!-- Title -->
-  <div class="container mt-5">
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container text-center">
-        <h1 class="display-6">Case Study Configurator</h1>
-        <hr class="my-2"/>
-      </div>
+  {% comment %} <div class="jumbotron mt-5 m-0">
+    <div class="container text-center">
+      <h3 class="display-6">Configurator</h3>
+      <hr class="my-2"/>
     </div>
-  </div>
+  </div> {% endcomment %}
 
   {% include 'middle/conf-options.html' %}
 
-  <div class="container mb-5">
+  {% comment %} <div class="container mb-5">
     <div class="row">
       <div class="col-sm-12 text-center">
         <h3 class="mb-5"><mark>Choose an option</mark></h3>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
 
   {% block config_option %}{% endblock %}
 

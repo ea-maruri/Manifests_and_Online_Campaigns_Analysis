@@ -5,31 +5,28 @@
 
   <!-- TITLE and Image-->
   <div class="container-fluid">
-    <div class="row m-0 p-0">
-      <div class="col-sm-12 text-center my-5">
-        <h1 calss="display-5">Manifests and Online Campaigns Analysis</h1>
-        <img class="img-fluid" src="{% static 'img/success-banner.jpg' %}" alt="Banner" width="40%" height:"auto">
-      </div>
+    <img class="img-fluid d-block m-auto" src="{% static 'img/success-banner.jpg' %}" alt="Banner" width="60%" height:"20px">
+    <div class="text-white text-center" style="position:absolute;top:20%;left:50%;transform:translate(-50%, -50%);">
+      <h3 calss="display-5">Analysis of Manifestos and Online Campaigns</h3>
     </div>
   </div>
 
-
   <!-- Table and Extra data -->
-  <div class="container">
+  <div class="container my-5">
     <div class="row">
 
-      {% comment %} <div class="col-sm-12 col-md-7"> {% endcomment %}
-      <div class="col-sm-12 col-md-8">
+      <div class="col-sm-12">
 
         <!-- Table -->  
-        <div class="d-flex-column">
+        <div class="">
+          
           <!-- Title -->
-          <h3>Latest Study Cases</h3>
+          <h3 class="mt-5 text-center my-3">Latest Case Studies</h3>
 
-    
+
           <!-- Table -->
-          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
-            <thead class="thead-inverse">
+          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark w-100">
+            <thead class="thead-inverse w-100">
               <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
@@ -39,11 +36,11 @@
               </tr>
             </thead>
 
-            <tbody>
+            <tbody class="w-100">
               {% if campaigns %}
                 {% for camp in campaigns %}
-                  <tr>
-                    <td class="text-right">{{camp.id}}</td>
+                  <tr class="w-100">
+                    <th scope="row" class="text-right">{{camp.id}}</th>
                     <td>{{camp.name}}</td>
                     <td>{{camp.description}}</td>
                     <td>{{camp.start_date}}</td>
@@ -71,7 +68,7 @@
     </div>
   </div>
 
-  <hr class="my-5" />
+  {% comment %} <hr class="my-5" />
+  {% include "middle/visualizer.html" %} {% endcomment %}
 
-  {% include "middle/visualizer.html" %}
 {% endblock %}

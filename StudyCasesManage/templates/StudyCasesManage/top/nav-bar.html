@@ -47,9 +47,9 @@
                   HOME <span class="sr-only">(current)</span>
                 </a>
               </li>
-              <li class="nav-item {% if request.path == '/'%}active mactive{% endif %}" title="Visualizer">
+              {% comment %} <li class="nav-item {% if request.path == '/'%}active mactive{% endif %}" title="Visualizer">
                 <a class="nav-link text-warning ml-2" href="{% url 'home' %}#visualizer-section">Visualizer</a>
-              </li>
+              </li> {% endcomment %}
               <li class="nav-item {% if request.path == '/conf'%}active mactive{% endif %}" title="Configurator">
                 <a class="nav-link text-warning ml-2" href="{% url 'configurator' %}">Configurator</a>
               </li>

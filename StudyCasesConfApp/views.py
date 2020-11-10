@@ -26,7 +26,7 @@ import StudyCasesManage.logic.ea_db_utilities as db_util
 
 # Constants
 ERROR_MESSAGE = 'Something went wrong: '
-CONF_PAGE = 'configurator.html'
+CONF_PAGE = 'configurator-base.html'
 IS_COLLECTING = False
 
 
@@ -62,7 +62,7 @@ def case_study_conf(request):
 
         except Exception as e:
           messages.error(request, ERROR_MESSAGE + str(e))
-          return render(request, "middle/case_study_conf.html", {"form": conf_cases_form})
+          return render(request, "middle/case-study-conf.html", {"form": conf_cases_form})
 
         campaign_id = campaign_to_create.id
 
@@ -90,7 +90,7 @@ def case_study_conf(request):
         candidate_to_create.save()
       except Exception as e:
         messages.error(request, ERROR_MESSAGE + str(e))
-        return render(request, "middle/case_study_conf.html", {"form": conf_cases_form})
+        return render(request, "middle/case-study-conf.html", {"form": conf_cases_form})
 
       candidate_id = candidate_to_create.id
 
@@ -117,7 +117,7 @@ def case_study_conf(request):
         account_to_create.save()
       except Exception as e:
         messages.error(request, ERROR_MESSAGE + str(e))
-        return render(request, "middle/case_study_conf.html", {"form": conf_cases_form})
+        return render(request, "middle/case-study-conf.html", {"form": conf_cases_form})
 
       messages.success(
           request, 
@@ -134,7 +134,7 @@ def case_study_conf(request):
   forms = [conf_cases_form, create_candidate_form, create_social_account]
   forms_names = ['Case Study', 'Candidate', 'Account']
 
-  return render(request, "middle/case_study_conf.html", {"forms": forms, "forms_names": forms_names})
+  return render(request, "middle/case-study-conf.html", {"forms": forms, "forms_names": forms_names})
 
 
 
@@ -183,7 +183,7 @@ def data_collection_conf(request):
 
   return render(
     request, 
-    "middle/collection_conf.html", 
+    "middle/collection-conf.html", 
     {"conf_data_form": data_collection_form, "compute_data_collect": compute_collection_form,}
   )
 
@@ -256,14 +256,14 @@ def analysis_conf(request):
         buf.seek(0)
         string = base64.b64encode(buf.read())
         uri = urllib.parse.quote(string)
-        return render(request, 'result.html', {'data': uri})
+        return render(request, 'analysis-result.html', {'data': uri})
 
       else:
         print('No Metric received!!!')
     else:
       print('Something')
 
-  return render(request, "middle/analysis_conf.html", {"form": analysis_conf_form})
+  return render(request, "middle/analysis-conf.html", {"form": analysis_conf_form})
 
 
 
@@ -280,7 +280,7 @@ def document_conf(request):
         form.save()  # DO not save, instead update (CHECK IT)
       except Exception as e:
         messages.error(request, ERROR_MESSAGE + str(e))
-        return render(request, "middle/document_conf.html", {"form": form})
+        return render(request, "middle/document-conf.html", {"form": form})
 
       messages.success(
         request, 
@@ -290,12 +290,12 @@ def document_conf(request):
     else:
       print("NO UPLOAD")
 
-  return render(request, "middle/document_conf.html", {"form": form})
+  return render(request, "middle/document-conf.html", {"form": form})
 
 
 
 def delete_account(request):
-  return render(request, "middle/del_account.html")
+  return render(request, "middle/account.html")
 
 
 def get_manifest(request):
