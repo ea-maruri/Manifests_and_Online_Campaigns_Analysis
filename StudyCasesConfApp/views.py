@@ -41,7 +41,7 @@ def configurator(request):
 def case_study_conf(request):
   campaigns_tuple = db_util.get_campaigns_tuple()
   candidates_tuple = db_util.get_candidates_tuple()
-  
+
   if request.method == 'POST':
 
     # Handle create study case (campaign) form
@@ -57,7 +57,9 @@ def case_study_conf(request):
             description=form_info['description']
         )
 
+        print('Campaign to create', campaign_to_create)
         try:
+          print('Correct!')
           campaign_to_create.save()
 
         except Exception as e:
@@ -125,16 +127,49 @@ def case_study_conf(request):
       )
   
 
+    # Handle document form
+    document_form = DocumentForm(request.POST or None, request.FILES or None)
+    if document_form.is_valid() and request.FILES['manifest']:
+      form_info = document_form.cleaned_data
+      print("Form info:", form_info)
+
+      try:
+        document_form.save()  # DO not save, instead update (CHECK IT)
+      except Exception as e:
+        messages.error(request, ERROR_MESSAGE + str(e))
+        return render(request, "middle/document-conf.html", {"form": document_form})
+
+      messages.success(
+          request,
+          'Manifest "%s" for %s added successfully.' % (
+              form_info['name'], form_info['candidate_id'])
+      )
+
+    else:
+      print("NO UPLOAD")
+
   else:
     conf_cases_form = ConfigureCaseStudyForm()
     create_candidate_form = CreateCandidateForm(campaigns_tuple)
     create_social_account = CreateSocialMediaAccount(candidates_tuple)
-  
+    document_form = DocumentForm()
+
 
   forms = [conf_cases_form, create_candidate_form, create_social_account]
   forms_names = ['Case Study', 'Candidate', 'Account']
 
-  return render(request, "middle/case-study-conf.html", {"forms": forms, "forms_names": forms_names})
+  # return render(request, "middle/document-conf.html", {"form": document_form})
+  return render(
+    request, 
+    "middle/case-study-conf.html", 
+    {"forms": forms, 
+      "forms_names": forms_names, 
+      "conf_cases_form": conf_cases_form, 
+      "create_candidate_form": create_candidate_form,
+      "create_social_account": create_social_account,
+      "document_form": document_form,
+    }, 
+  )
 
 
 
@@ -269,18 +304,18 @@ def analysis_conf(request):
 
 def document_conf(request):
 
-  form = DocumentForm(request.POST or None, request.FILES or None)
+  document_form = DocumentForm(request.POST or None, request.FILES or None)
 
   if request.method == 'POST' and request.FILES['manifest']: 
-    if form.is_valid():
-      form_info = form.cleaned_data
+    if document_form.is_valid():
+      form_info = document_form.cleaned_data
       print("Form info:", form_info)
 
       try:
-        form.save()  # DO not save, instead update (CHECK IT)
+        document_form.save()  # DO not save, instead update (CHECK IT)
       except Exception as e:
         messages.error(request, ERROR_MESSAGE + str(e))
-        return render(request, "middle/document-conf.html", {"form": form})
+        return render(request, "middle/document-conf.html", {"form": document_form})
 
       messages.success(
         request, 
@@ -290,7 +325,7 @@ def document_conf(request):
     else:
       print("NO UPLOAD")
 
-  return render(request, "middle/document-conf.html", {"form": form})
+  return render(request, "middle/document-conf.html", {"form": document_form})
 
 
 

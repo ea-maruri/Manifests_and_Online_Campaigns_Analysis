@@ -2,53 +2,147 @@
 
 
 {% block config_option %}
-  <!-- Case study and entities creation -->
+  <!-- Title -->
+  <div class="container">
     <div class="row">
       <div class="col-sm-12 text-center">
-        <h3 class="mb-5">Case Study Entities</h3>
+        <h3 class="mb-5">Analysis Configuration</h3>
       </div>
     </div>
-
-    <div class"row">
-      <div class="col-sm-12">
-
-        {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              {{ message | safe }}
-            </div>
-        {% endfor %}
-
-        <div class="d-flex justify-content-around">
-          {% comment %} {% include 'forms/create-candidate-form.html' %} {% endcomment %}
-
-          {% for form in forms %}
-
-            {% if form.error %}
-              <p class="text-danger">Sorry, something went wrong, while loading the form</p>
-            {% else %}
-              <div class="form-group">
-                <form action="" method="POST">{% csrf_token %} 
-                  {{form.as_p}}
-                  
-                  <input type="submit" value="Create"/>
-                  
-                  <div class="d-flex justify-content-end">
-                    <small id="formHelper" class="form-text text-muted">Please fill all data</small>
-                  </div>
-                </form>
-              </div>
-            {% endif %}
-
-          {% endfor %}
-          
-          
+  </div>
+  
+  <nav class="container">
+    <div class="row">
+      <div class="col-sm-12 d-flex justify-content-center">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-link active" id="nav-campaign-tab" data-toggle="tab" href="#nav-campaign" role="tab" aria-controls="nav-campaign" aria-selected="true">Campaign</a>
+          <a class="nav-link" id="nav-candidate-tab" data-toggle="tab" href="#nav-candidate" role="tab" aria-controls="nav-candidate" aria-selected="false">Candidate</a>
+          <a class="nav-link" id="nav-account-tab" data-toggle="tab" href="#nav-account" role="tab" aria-controls="nav-account" aria-selected="false">Account</a>
+          <a class="nav-link" id="nav-document-tab" data-toggle="tab" href="#nav-document" role="tab" aria-controls="nav-document" aria-selected="false">Document</a>
         </div>
+      </div>
+    </div>
+  </nav>
 
+  <div class="container tab-content" id="nav-tabContent">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message | safe }}
+        </div>
+    {% endfor %}
+
+    <!-- Campaign -->
+    <div class="row tab-pane fade show active" id="nav-campaign" role="tabpanel" aria-labelledby="nav-campaign-tab">
+      <div class="text-center mt-5">
+        <h3 calss="mb-2 text-center">Campaign</h3>
+      </div>
+
+      <hr class="mt-2 mb-5 w-50"/>
+
+      <div class="col-sm-12 d-flex justify-content-center">
+        {% if conf_cases_form.error %}
+          <p>Some error with "conf_cases_form"</p>
+        {% else %}
+          <div class="form-group">
+            <form action="" method="POST">{% csrf_token %} 
+              {{conf_cases_form.as_p}}
+                        
+              <input type="submit" value="Create Campaign"/>
+                        
+              <div class="d-flex justify-content-end">
+                <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+              </div>
+            </form>
+          </div>
+        {% endif %}
       </div>
     </div>
 
-    <hr class="my-5 w-75"/>
+    <!-- Candidate -->
+    <div class="tab-pane fade" id="nav-candidate" role="tabpanel" aria-labelledby="nav-candidate-tab">
+      <div class="text-center mt-5">
+        <h3 calss="mb-2 text-center">Candidate</h3>
+      </div>
+
+      <hr class="mt-2 mb-5 w-50"/>
+
+      <div class="col-sm-12 d-flex justify-content-center">
+        {% if create_candidate_form.error %}
+          <p>Some error with "create_candidate_form"</p>
+        {% else %}
+          <div class="form-group">
+            <form action="" method="POST">{% csrf_token %} 
+              {{create_candidate_form.as_p}}
+                          
+              <input type="submit" value="Create Candidate"/>
+                          
+              <div class="d-flex justify-content-end">
+                <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+              </div>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Account -->
+    <div class="tab-pane fade" id="nav-account" role="tabpanel" aria-labelledby="nav-account-tab">
+      <div class="text-center mt-5">
+        <h3 calss="mb-2 text-center">Account</h3>
+      </div>
+
+      <hr class="mt-2 mb-5 w-50"/>
+
+      <div class="col-sm-12 d-flex justify-content-center">
+        {% if create_social_account.error %}
+          <p>Some error with "create_social_account"</p>
+        {% else %}
+          <div class="form-group">
+            <form action="" method="POST">{% csrf_token %} 
+              {{create_social_account.as_p}}
+
+              <input type="submit" value="Create Campaign"/>
+
+              <div class="d-flex justify-content-end">
+                <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+              </div>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Document -->
+    <div class="tab-pane fade" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
+      <div class="text-center mt-5">
+        <h3 calss="mb-2 text-center">Document</h3>
+      </div>
+
+      <hr class="mt-2 mb-5 w-50"/>
+
+      <div class="col-sm-12 d-flex justify-content-center">
+        {% if document_form.error %}
+          <p>Some error with "document_form"</p>
+        {% else %}
+          <div class="form-group">
+            <form action="" method="POST">{% csrf_token %} 
+              {{document_form.as_p}}
+
+              <input type="submit" value="Create Campaign"/>
+
+              <div class="d-flex justify-content-end">
+                <small id="formHelper" class="form-text text-muted">Please fill all data</small>
+              </div>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-5 w-75"/>
+
 {% endblock %}

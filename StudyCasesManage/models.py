@@ -7,10 +7,10 @@ import datetime
 
 # Models for Database are created here as Python classes.
 class Campaign(models.Model):
-  name = models.CharField(max_length=50, unique=True)  # verbose_name="something" to change the output in admin panel
+  name = models.CharField(max_length=60, unique=True)  # verbose_name="something" to change the output in admin panel
   start_date = models.DateField()
   end_date = models.DateField()
-  description = models.CharField(max_length=50, blank=True, null=True)
+  description = models.CharField(max_length=500, blank=True, null=True)
   
   def __str__(self):
     return "%s" % self.name
@@ -18,10 +18,10 @@ class Campaign(models.Model):
 
 class Candidate(models.Model):
   campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name="Campaign")
-  name = models.CharField(max_length=20)
-  lastname = models.CharField(max_length=20)
-  type = models.CharField(max_length=20, blank=True, null=True)  # candidate of what? Can be blank
-  party = models.CharField(max_length=20, blank=True, null=True)
+  name = models.CharField(max_length=30)
+  lastname = models.CharField(max_length=30)
+  type = models.CharField(max_length=40, blank=True, null=True)  # candidate of what? Can be blank
+  party = models.CharField(max_length=60, blank=True, null=True)
 
   def __str__(self):
     return "%s %s. (%s)" %(self.name, self.lastname, self.campaign_id)
@@ -34,7 +34,7 @@ class Manifest(models.Model):
   collect_date = models.DateField(blank=True, default=datetime.date.today)
   release_date = models.DateField(blank=True, null=True)
   provider = models.CharField(max_length=40, blank=True, null=True)
-  type = models.CharField(max_length=10, blank=True, null=True)
+  type = models.CharField(max_length=40, blank=True, null=True)
   # Maybe a path for the document location
 
   def __str__(self):
@@ -43,7 +43,7 @@ class Manifest(models.Model):
 
 class SocialMediaAccount(models.Model):
   candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Candidate")
-  screen_name = models.CharField(max_length=20)
+  screen_name = models.CharField(max_length=40)
   account = models.CharField(max_length=40, default='Twitter')
   created_date = models.DateField(blank=True, null=True)
   followers = models.JSONField(encoder=DjangoJSONEncoder, blank=True, null=True)
