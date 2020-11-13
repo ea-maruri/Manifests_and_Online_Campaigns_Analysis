@@ -50,7 +50,7 @@
             <form action="" method="POST">{% csrf_token %} 
               {{conf_cases_form.as_p}}
                         
-              <input type="submit" value="Create Campaign"/>
+              <input class="btn-success" type="submit" value="Create Campaign"/>
                         
               <div class="d-flex justify-content-end">
                 <small id="formHelper" class="form-text text-muted">Please fill all data</small>
@@ -77,7 +77,7 @@
             <form action="" method="POST">{% csrf_token %} 
               {{create_candidate_form.as_p}}
                           
-              <input type="submit" value="Create Candidate"/>
+              <input class="btn-success" type="submit" value="Create Candidate"/>
                           
               <div class="d-flex justify-content-end">
                 <small id="formHelper" class="form-text text-muted">Please fill all data</small>
@@ -104,7 +104,7 @@
             <form action="" method="POST">{% csrf_token %} 
               {{create_social_account.as_p}}
 
-              <input type="submit" value="Create Campaign"/>
+              <input class="btn-success" type="submit" value="Create Account"/>
 
               <div class="d-flex justify-content-end">
                 <small id="formHelper" class="form-text text-muted">Please fill all data</small>
@@ -131,7 +131,7 @@
             <form action="" method="POST">{% csrf_token %} 
               {{document_form.as_p}}
 
-              <input type="submit" value="Create Campaign"/>
+              <input class="btn-success" type="submit" value="Create Document"/>
 
               <div class="d-flex justify-content-end">
                 <small id="formHelper" class="form-text text-muted">Please fill all data</small>

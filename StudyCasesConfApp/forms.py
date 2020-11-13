@@ -188,7 +188,8 @@ class DocumentForm(forms.ModelForm):
 
   class Meta:
     model = Manifest  # specify the name of model to use
-    fields = "__all__"
+    fields = ['candidate_id', 'name', 'manifest']
+    # fields = "__all__"
 
 
 class UploadFileForm(forms.Form):
