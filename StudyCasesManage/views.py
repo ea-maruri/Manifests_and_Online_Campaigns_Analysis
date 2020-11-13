@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http.response import HttpResponse
+from django.contrib.auth import authenticate, login as dj_login
 
 # Own utilities
 import StudyCasesManage.logic.ea_db_utilities as db_util
 
 # Import forms
-from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm
+from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm, CustomUserCreationForm
 
 #
 # Views
@@ -63,5 +64,22 @@ def login(request):
 
 
 def register(request):
-  return render(request, "forms/register.html")
+  data = {
+    'form': CustomUserCreationForm()
+  }
+
+  if request.method == 'POST':
+    register_form = CustomUserCreationForm(request.POST)
+    if register_form.is_valid():
+      register_form.save()
+      
+      # authenticate the user and redirect him to the beginning
+      username = register_form.cleaned_data['username']
+      password = register_form.cleaned_data['password1']
+      user = authenticate(username=username, password=password)
+      dj_login(request, user)
+      print('REDIRECT!')
+      return redirect(to='StudyCasesManage')
+
+  return render(request, "registration/register.html", data)
 

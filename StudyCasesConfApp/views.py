@@ -3,6 +3,7 @@ from math import cos
 from django.http import request
 from django.http.response import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -31,6 +32,9 @@ IS_COLLECTING = False
 
 
 # Create your views here.
+
+@login_required 
+# @permission_required('????')
 def configurator(request):
   """Renders the request page"""
 

@@ -1,6 +1,8 @@
 from django import forms
 from django.core.mail import message
 from django.forms import widgets
+from django.contrib.auth.forms import UserCreationForm
+
 
 class ContactForm(forms.Form):
   subject = forms.CharField(
@@ -17,4 +19,7 @@ class ContactForm(forms.Form):
     widget=forms.Textarea(attrs={'placeholder': 'Your message'}),
     label=""
   )
-  
+
+
+class CustomUserCreationForm(UserCreationForm):
+  pass

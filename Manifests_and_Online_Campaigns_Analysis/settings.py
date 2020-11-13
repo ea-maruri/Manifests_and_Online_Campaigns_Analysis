@@ -160,3 +160,7 @@ try:
     }
 except Exception as e:
     pass
+
+
+LOGIN_REDIRECT_URL = '/StudyCasesManage'
+LOGOUT_REDIRECT_URL = '/StudyCasesManage'

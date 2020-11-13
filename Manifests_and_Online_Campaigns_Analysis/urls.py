@@ -23,6 +23,7 @@ urlpatterns = [
   path('admin/', admin.site.urls),
   path('StudyCasesManage/', include('StudyCasesManage.urls')),
   path('Configurator/', include('StudyCasesConfApp.urls')),
+  path('accounts/', include('django.contrib.auth.urls')),  # Use django auth (login, logout, etc)
 ]
 
 #if settings.DEBUG: ??
