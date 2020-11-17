@@ -43,7 +43,10 @@
       </button>
 
       <button type="button" class="btn btn-block btn-warning my-2">
-        <a class="nav-link p-0 text-dark" href="{% url 'del_account' %}">
+        {% comment %} <a class="nav-link p-0 text-dark" href="{% url 'del_account' %}">
+          <strong>Account</strong>
+        </a> {% endcomment %}
+        <a class="nav-link p-0 text-dark" href="{% url 'edit_profile' %}">
           <strong>Account</strong>
         </a>
       </button>

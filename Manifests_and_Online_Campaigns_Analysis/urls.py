@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static  # to use media and static files
+from . import views
 # Import App
 
 urlpatterns = [
@@ -24,6 +25,7 @@ urlpatterns = [
   path('StudyCasesManage/', include('StudyCasesManage.urls')),
   path('Configurator/', include('StudyCasesConfApp.urls')),
   path('accounts/', include('django.contrib.auth.urls')),  # Use django auth (login, logout, etc)
+  path('edit-profile/', views.edit_profile, name='edit_profile')
 ]
 
 #if settings.DEBUG: ??
