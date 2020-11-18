@@ -27,7 +27,7 @@ SECRET_KEY = '5u6@nc35cq!u&nd&-=d$dv6zyzk3&pka+l2^m1c^zcd=^2*5bp'
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['xterm.mynetgear.com',]
+ALLOWED_HOSTS = ['xterm.mynetgear.com', '186.101.140.163', '127.0.0.1', 'localhost', '0.0.0.0',]
 
 
 # Application definition
@@ -133,19 +133,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-if not DEBUG:
-    STATIC_ROOT = ''
-    # STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [ 
-    BASE_DIR / 'static',
-]
+STATIC_ROOT = BASE_DIR / 'static'
+# if not DEBUG:
+#     # STATIC_ROOT = ''
+#     STATIC_ROOT = BASE_DIR / 'static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'Manifests_and_Online_Campaigns_Analysis', 'static'),
+    #     BASE_DIR / 'static',
+)
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
 
 # Mailing
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
