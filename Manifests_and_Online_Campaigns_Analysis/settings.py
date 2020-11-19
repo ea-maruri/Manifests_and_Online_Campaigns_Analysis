@@ -24,11 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '5u6@nc35cq!u&nd&-=d$dv6zyzk3&pka+l2^m1c^zcd=^2*5bp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = ['xterm.mynetgear.com', '186.101.140.163', '127.0.0.1', 'localhost', '0.0.0.0',]
+ALLOWED_HOSTS = ['xterm.mynetgear.com', '186.101.140.163',
+                 '127.0.0.1', 'localhost', '0.0.0.0', '192.168.1.14', '192.168.200.8']
 
+SECURE_SSL_REDIRECT = False  # Variable for SSL
 
 # Application definition
 
@@ -39,12 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'djangosecure',  # allows https
+    # 'sslserver', # for checking ssl
     # 'bootstrap_modal_forms',
-    'StudyCasesManage',
-    'StudyCasesConfApp',
+    'StudyCasesManage',  # my app
+    'StudyCasesConfApp',  # my app
 ]
 
 MIDDLEWARE = [
+    # 'djangosecure.middleware.SecurityMiddleware',  # For HTTPS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
