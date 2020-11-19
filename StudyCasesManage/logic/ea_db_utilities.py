@@ -64,8 +64,8 @@ def get_screen_names_list(campaign_name: str):
 
 def get_manifest(candidate_complete_name: str):
   """Returns a manifest given a candidate name"""
-  candidates = Candidate.objects.all()
-  print(candidates)
+  # candidates = Candidate.objects.all()
+  # print(candidates)
 
   try:
     # print("TRY:", candidate_complete_name.split()[0], candidate_complete_name.split()[1])
@@ -82,15 +82,16 @@ def get_manifest(candidate_complete_name: str):
 
 def get_posts_by_candidate(cand_name):
   try:
-    # print('Data in "get_posts_by_candidate"')
+    print('Data in "get_posts_by_candidate"')
     candidate = Candidate.objects.get(name=cand_name.split()[0], lastname=cand_name.split()[1])
-    # print(candidate)
+    print('\t', candidate)
     account = SocialMediaAccount.objects.get(candidate_id=candidate)
-    # print(account)
-    timeline = Timeline.objects.get(social_media_id=account)
-    # print(timeline)
+    print('\t', account)
+    # timeline = Timeline.objects.get(social_media_id=account)
+    timeline = Timeline.objects.filter(social_media_id=account).order_by('-id')[:1][0]  # Choose the last one
+    print('\t', timeline)
     # posts = Post.objects.values_list('post_text').filter(timeline_id=timeline)
-    # print(posts)
+    # print('\t', posts)
     # print('Posts', len(posts))
     
     posts_content = ''
