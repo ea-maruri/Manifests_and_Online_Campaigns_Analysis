@@ -9,9 +9,22 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
-  <body>
-      <img src="data:image/png;base64, {{data}}" alt="Result" height="300", width="300">
 
+
+  <body>
+      {% include "top/nav-bar.html" %}
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="d-flex flex-column justify-content-center my-5">
+              <img class="d-block mx-auto my-5" src="data:image/png;base64, {{data}}" alt="Result" height="300", width="300">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "bottom/footer.html" %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

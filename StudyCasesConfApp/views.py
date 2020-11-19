@@ -63,10 +63,11 @@ def case_study_conf(request):
 
         print('Campaign to create', campaign_to_create)
         try:
-          print('Correct!')
           campaign_to_create.save()
+          print('Correct!')
 
         except Exception as e:
+          print('Fail!')
           messages.error(request, ERROR_MESSAGE + str(e))
           return render(request, "middle/case-study-conf.html", {"form": conf_cases_form})
 
@@ -92,9 +93,12 @@ def case_study_conf(request):
           party=form_info['party']
       )
 
+      print('Candidate to create:', candidate_to_create)
       try:
         candidate_to_create.save()
+        print('Correct!')
       except Exception as e:
+        print('Fail!')
         messages.error(request, ERROR_MESSAGE + str(e))
         return render(request, "middle/case-study-conf.html", {"form": conf_cases_form})
 
@@ -119,9 +123,12 @@ def case_study_conf(request):
           account=form_info['account']
       )
 
+      print('Account to create:', account_to_create)
       try:
         account_to_create.save()
+        print('Correct')
       except Exception as e:
+        print('Fail!')
         messages.error(request, ERROR_MESSAGE + str(e))
         return render(request, "middle/case-study-conf.html", {"form": conf_cases_form})
 
@@ -133,24 +140,28 @@ def case_study_conf(request):
 
     # Handle document form
     document_form = DocumentForm(request.POST or None, request.FILES or None)
-    if document_form.is_valid() and request.FILES['manifest']:
-      form_info = document_form.cleaned_data
-      print("Form info:", form_info)
+    if document_form.is_valid():
+      print('Valid Form')
+      if request.FILES['manifest']:
+        form_info = document_form.cleaned_data
+        print("Form info:", form_info)
 
-      try:
-        document_form.save()  # DO not save, instead update (CHECK IT)
-      except Exception as e:
-        messages.error(request, ERROR_MESSAGE + str(e))
-        return render(request, "middle/document-conf.html", {"form": document_form})
+        try:
+          document_form.save()  # DO not save, instead update (CHECK IT)
+          print('File Added')
+        except Exception as e:
+          messages.error(request, ERROR_MESSAGE + str(e))
+          return render(request, "middle/document-conf.html", {"form": document_form})
 
-      messages.success(
-          request,
-          'Manifest "%s" for %s added successfully.' % (
-              form_info['name'], form_info['candidate_id'])
-      )
+        messages.success(
+            request,
+            'Manifest "%s" for %s added successfully.' % (
+                form_info['name'], form_info['candidate_id'])
+        )
 
     else:
-      print("NO UPLOAD")
+      print("NO UPLOAD (form no valid)")
+      print(document_form.errors)
 
   else:
     conf_cases_form = ConfigureCaseStudyForm()
@@ -213,6 +224,7 @@ def data_collection_conf(request):
               form_info['until_date']
             )
       
+      print('Hello')
       messages.success(
           request,
           "Computing data collection for " + campaign_name + '.' + 
@@ -247,7 +259,7 @@ def analysis_conf(request):
       
       for candidate in candidates:
         manif = db_util.get_manifest(candidate[1] + ' ' + candidate[2])  # str
-        print(manif)
+        print('Manifest:', manif)
         from StudyCasesManage.logic.ea_data_process import document_content, process_data, posts_content
 
         manif_content = document_content(manif)
@@ -335,6 +347,7 @@ def document_conf(request):
 
 def delete_account(request):
   return render(request, "middle/account.html")
+
 
 
 def get_manifest(request):
