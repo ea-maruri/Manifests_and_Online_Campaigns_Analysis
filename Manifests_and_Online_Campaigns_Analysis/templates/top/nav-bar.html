@@ -68,9 +68,9 @@
                 <li class="nav-item {% if request.path == '/login'%}active mactive{% endif %}" title="Sign-in">
                   <a class="nav-link text-warning" href="{% url 'login' %}">SIGN-IN</a>
                 </li>
-                <li class="nav-item {% if request.path == '/register'%}active mactive{% endif %}" title="Sign-up">
+                {% comment %} <li class="nav-item {% if request.path == '/register'%}active mactive{% endif %}" title="Sign-up">
                   <a class="nav-link text-warning" href="{% url 'register' %}">SIGN-UP</a>
-                </li>
+                </li> {% endcomment %}
               {% endif %}
             </ul>
 
