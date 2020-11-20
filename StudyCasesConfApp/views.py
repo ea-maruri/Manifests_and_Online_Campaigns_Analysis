@@ -311,7 +311,9 @@ def analysis_conf(request):
         # plt.figure(figsize=(1,1))
         plt.bar(range(len(cosine_results_dict)), list(cosine_results_dict.values()), align='center')
         plt.xticks(range(len(cosine_results_dict)), list(cosine_results_dict.keys()))
-        plt.legend('-', str(cosine_results_dict))
+        # plt.title(str(cosine_results_dict))
+        # plt.text(0, 0, str(cosine_results_dict))
+        # plt.legend(cosine_results_dict)
 
         fig = plt.gcf()
         buf = io.BytesIO()
