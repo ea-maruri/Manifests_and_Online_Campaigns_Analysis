@@ -34,9 +34,9 @@ class TimelineAdmin(admin.ModelAdmin):
   date_hierarchy="collect_date"
 
 class PostAdmin(admin.ModelAdmin):
-  list_display = ("timeline_id", "parent_id", "post_date", "post_text")  # "post_as_json" # is too big
-  search_fields = ("timeline_id", "parent_id", "post_date")
-  list_filter = ("timeline_id", "parent_id", "post_date")
+  list_display = ("timeline_id", "post_date", "post_text")  # "post_as_json" and "parent_id" # is too big
+  search_fields = ("timeline_id", "post_date")
+  list_filter = ("timeline_id", "post_date")
   date_hierarchy = "post_date"
   list_per_page = 100  # maximum 100 rows
 

@@ -12,9 +12,13 @@ def text_to_vector(text, word):
 
 
 def document_content(doc_name: str):
+  print('\nProcess Document Content')
   try:
     # doc_name = input("\nManifest of %s - %s > " % (candidate.get_name(), candidate.get_screen_name()))
     # pdf_file = open('./../data/00_Manifestos/00_Quito/' + doc_name + '.pdf', 'rb')
+    manif_path = str(settings.MEDIA_ROOT) + '/' + doc_name
+    manif_path = manif_path.replace('\\', '/')
+    print('Manif Path:', manif_path)
     pdf_file = open(str(settings.MEDIA_ROOT) + '/' + doc_name, 'rb')
   except IOError as e:
     msg = "Error: manifest not found.\n"
@@ -33,9 +37,10 @@ def document_content(doc_name: str):
   return manifest_content
 
 
-def posts_content(cand_name: str):
+def posts_content(candidate_id):
+  print('\nProcess Posts Content')
   from .ea_db_utilities import get_posts_by_candidate
-  posts_content = get_posts_by_candidate(cand_name=cand_name)
+  posts_content = get_posts_by_candidate(id=candidate_id)
   
   return posts_content
 

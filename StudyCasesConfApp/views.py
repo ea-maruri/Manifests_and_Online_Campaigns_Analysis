@@ -224,7 +224,6 @@ def data_collection_conf(request):
               form_info['until_date']
             )
       
-      print('Hello')
       messages.success(
           request,
           "Computing data collection for " + campaign_name + '.' + 
@@ -246,6 +245,7 @@ def analysis_conf(request):
 
   if request.method == 'POST':
     if analysis_conf_form.is_valid():
+      print('\nStarting analysis...')
       form_info = analysis_conf_form.cleaned_data
       campaign = Campaign.objects.get(id=form_info['case_study'])
       candidates = Candidate.objects.values_list('id', 'name', 'lastname').filter(campaign_id=campaign)
@@ -258,19 +258,25 @@ def analysis_conf(request):
       print('Metric:', metric)
       
       for candidate in candidates:
-        manif = db_util.get_manifest(candidate[1] + ' ' + candidate[2])  # str
+        # print('The Candidate:', candidate, '\tType:', str(type(candidate)))  # Is a tuple
+        manif = db_util.get_manifest(id=candidate[0])  # str
         print('Manifest:', manif)
+
         from StudyCasesManage.logic.ea_data_process import document_content, process_data, posts_content
 
         manif_content = document_content(manif)
         if "Error" in manif_content:
           print(manif_content)
-          return HttpResponse('Get a manifest ' + manif_content)
+          print('Do not include', candidate)
+          messages.error(request, ERROR_MESSAGE + 'Do not include ' + str(candidate[0]) + ' ' +candidate[1] + ' ' + candidate[2])
+          continue  # Do not include this candidate
+          # return HttpResponse('Get a manifest.', manif_content)
 
-        posts_text = posts_content(cand_name=candidate[1] + ' ' + candidate[2])
+        # posts_text = posts_content(cand_name=candidate[1] + ' ' + candidate[2])
+        posts_text = posts_content(candidate_id=candidate[0])
         if "Error" in posts_text:
           print(posts_text)
-          return HttpResponse('Get a manifest ' + posts_text)
+          return HttpResponse('Get Posts.', posts_text)
 
         # print('Posts text\n', posts_text)
         result = process_data(manifest_content=manif_content, posts_grouped=posts_text, metric=metric)

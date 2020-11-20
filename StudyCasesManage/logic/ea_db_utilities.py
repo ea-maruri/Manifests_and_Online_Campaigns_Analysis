@@ -62,17 +62,18 @@ def get_screen_names_list(campaign_name: str):
 
 
 
-def get_manifest(candidate_complete_name: str):
+def get_manifest(id):
   """Returns a manifest given a candidate name"""
   # candidates = Candidate.objects.all()
   # print(candidates)
 
   try:
     # print("TRY:", candidate_complete_name.split()[0], candidate_complete_name.split()[1])
-    candidate = Candidate.objects.get(name=candidate_complete_name.split()[0], lastname=candidate_complete_name.split()[1])
+    candidate = Candidate.objects.get(id=id)
+    print('Received candidate:', candidate)
+    # print('Suppose to return:', Manifest.objects.filter(candidate_id=candidate))
     manifest = Manifest.objects.filter(candidate_id=candidate)[0]
-    # print('Received candidate:', candidate)
-    # print('Manifest to return', manifest)
+    print('Manifest to return', manifest)
     return manifest.manifest.name
   
   except Exception as e:
@@ -80,12 +81,13 @@ def get_manifest(candidate_complete_name: str):
 
 
 
-def get_posts_by_candidate(cand_name):
+def get_posts_by_candidate(id):
   try:
     print('Data in "get_posts_by_candidate"')
-    candidate = Candidate.objects.get(name=cand_name.split()[0], lastname=cand_name.split()[1])
+    # candidate = Candidate.objects.get(name=cand_name.split()[0], lastname=cand_name.split()[1])
+    candidate = Candidate.objects.get(id=id)
     print('\t', candidate)
-    account = SocialMediaAccount.objects.get(candidate_id=candidate)
+    account = SocialMediaAccount.objects.filter(candidate_id=candidate).order_by('-id')[:1][0]
     print('\t', account)
     # timeline = Timeline.objects.get(social_media_id=account)
     timeline = Timeline.objects.filter(social_media_id=account).order_by('-id')[:1][0]  # Choose the last one
@@ -102,7 +104,7 @@ def get_posts_by_candidate(cand_name):
       posts_content += post[0]
       counter += 1
 
-    print('Posts num:', counter)
+    print('Returned posts content of ', counter, 'posts.')
     
     return posts_content
   
