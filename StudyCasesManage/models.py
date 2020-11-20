@@ -30,7 +30,8 @@ class Candidate(models.Model):
 class Manifest(models.Model):
   candidate_id = models.OneToOneField(Candidate, on_delete=models.CASCADE, verbose_name="Candidate", primary_key=True)
   name = models.CharField(max_length=45, blank=True, null=True)
-  manifest = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
+  # manifest = models.FileField(max_length=400, upload_to="StudyCasesManage/uploads/manifests/%Y/%m/%d")
+  manifest = models.FileField(max_length=400, upload_to="StudyCasesManage/manifests")
   collect_date = models.DateField(blank=True, default=datetime.date.today)
   release_date = models.DateField(blank=True, null=True)
   provider = models.CharField(max_length=40, blank=True, null=True)
