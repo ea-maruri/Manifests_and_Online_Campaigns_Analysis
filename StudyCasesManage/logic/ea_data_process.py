@@ -91,6 +91,7 @@ def do_cosine_similarity(posts_grouped: str, manifest_content: str):
   cosine = compute_cosine_similarity(posts_grouped, manifest_content)
   manifest_similarities = dict()
   manifest_similarities["similar"] = cosine
+  print('Similarity:', manifest_similarities["similar"])
   # manifest_similarities["not-similar"] = 1.0 - cosine
   # print('\nManifest-Similarities\n', manifest_similarities)
 

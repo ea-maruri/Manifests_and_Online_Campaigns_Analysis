@@ -268,7 +268,8 @@ def analysis_conf(request):
         if "Error" in manif_content:
           print(manif_content)
           print('Do not include', candidate)
-          messages.error(request, ERROR_MESSAGE + 'Do not include ' + str(candidate[0]) + ' ' +candidate[1] + ' ' + candidate[2])
+          message = ERROR_MESSAGE + 'Do not include ' + str(candidate[0]) + ' ' +candidate[1] + ' ' + candidate[2] + '(Due to manifest problem)'
+          messages.error(request, message=message)
           continue  # Do not include this candidate
           # return HttpResponse('Get a manifest.', manif_content)
 
@@ -276,6 +277,8 @@ def analysis_conf(request):
         posts_text = posts_content(candidate_id=candidate[0])
         if "Error" in posts_text:
           print(posts_text)
+          message = ERROR_MESSAGE + 'Do not include ' + str(candidate[0]) + ' ' +candidate[1] + ' ' + candidate[2] + '(Due to posts error)'
+          messages.error(request, message=message)
           return HttpResponse('Get Posts.', posts_text)
 
         # print('Posts text\n', posts_text)
