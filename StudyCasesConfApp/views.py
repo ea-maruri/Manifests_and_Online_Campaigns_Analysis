@@ -310,7 +310,7 @@ def analysis_conf(request):
         print(cosine_results_dict)
         # plt.figure(figsize=(1,1))
         plt.bar(range(len(cosine_results_dict)), list(cosine_results_dict.values()), align='center')
-        plt.xticks(range(len(cosine_results_dict)), list(cosine_results_dict.keys()))
+        plt.xticks(range(len(cosine_results_dict)), list(cosine_results_dict.keys()), rotation=45)
         # plt.title(str(cosine_results_dict))
         # plt.text(0, 0, str(cosine_results_dict))
         # plt.legend(cosine_results_dict)
