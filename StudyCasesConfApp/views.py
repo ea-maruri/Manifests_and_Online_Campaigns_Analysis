@@ -308,8 +308,10 @@ def analysis_conf(request):
 
       if metric == 1:
         print(cosine_results_dict)
+        # plt.figure(figsize=(1,1))
         plt.bar(range(len(cosine_results_dict)), list(cosine_results_dict.values()), align='center')
         plt.xticks(range(len(cosine_results_dict)), list(cosine_results_dict.keys()))
+        plt.legend('-', str(cosine_results_dict))
 
         fig = plt.gcf()
         buf = io.BytesIO()
