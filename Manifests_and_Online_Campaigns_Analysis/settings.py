@@ -155,7 +155,7 @@ STATICFILES_DIRS = (
     # BASE_DIR / 'static/admin/img',
     # BASE_DIR / 'static/admin/js',
     # os.path.join(BASE_DIR, '..', 'static'),
-    #     BASE_DIR / 'static',
+    # BASE_DIR / 'static',
 )
 
 

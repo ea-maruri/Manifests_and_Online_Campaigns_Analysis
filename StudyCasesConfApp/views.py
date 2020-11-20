@@ -279,7 +279,8 @@ def analysis_conf(request):
           print(posts_text)
           message = ERROR_MESSAGE + 'Do not include ' + str(candidate[0]) + ' ' +candidate[1] + ' ' + candidate[2] + '(Due to posts error)'
           messages.error(request, message=message)
-          return HttpResponse('Get Posts.', posts_text)
+          continue
+          # return HttpResponse('Get Posts.', posts_text)
 
         # print('Posts text\n', posts_text)
         result = process_data(manifest_content=manif_content, posts_grouped=posts_text, metric=metric)
