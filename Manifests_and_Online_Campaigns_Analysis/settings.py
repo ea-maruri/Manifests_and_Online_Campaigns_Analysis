@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '5u6@nc35cq!u&nd&-=d$dv6zyzk3&pka+l2^m1c^zcd=^2*5bp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = [
     'xterm.mynetgear.com', '186.101.140.163', '192.168.1.5',  # Remote
@@ -148,7 +148,13 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 STATICFILES_DIRS = (
     # os.path.join(BASE_DIR, 'Manifests_and_Online_Campaigns_Analysis', 'static'),
-    os.path.join(BASE_DIR, 'static/admin'),
+    # BASE_DIR / 'static/admin',
+    # BASE_DIR / 'admin',
+    # BASE_DIR / 'static/admin/css',
+    # BASE_DIR / 'static/admin/fonts',
+    # BASE_DIR / 'static/admin/img',
+    # BASE_DIR / 'static/admin/js',
+    # os.path.join(BASE_DIR, '..', 'static'),
     #     BASE_DIR / 'static',
 )
 
