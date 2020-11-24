@@ -10,8 +10,5 @@ urlpatterns = [
   path('data-collection-conf/', views.data_collection_conf, name="data_collect_conf"),
   path('case-study-conf/', views.case_study_conf, name="case_conf"),
   path('analysis-conf/', views.analysis_conf, name="analysis_conf"),
-  path('document-conf/', views.document_conf, name="doc_conf"),
-  path('del-account/', views.delete_account, name="del_account"),
-  path('compute/', views.compute_collection, name="compute"),
-  path('get-manifest/', views.get_manifest, name="get_manifest")
+  # path('document-conf/', views.document_conf, name="doc_conf"),
 ]

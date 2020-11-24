@@ -41,7 +41,7 @@ def configurator(request):
   return render(request, CONF_PAGE)
 
 
-
+@login_required 
 def case_study_conf(request):
   campaigns_tuple = db_util.get_campaigns_tuple()
   candidates_tuple = db_util.get_candidates_tuple()
@@ -151,7 +151,8 @@ def case_study_conf(request):
           print('File Added')
         except Exception as e:
           messages.error(request, ERROR_MESSAGE + str(e))
-          return render(request, "middle/document-conf.html", {"form": document_form})
+          return HttpResponse(ERROR_MESSAGE + str(e))
+          # return render(request, "middle/document-conf.html", {"form": document_form})
 
         messages.success(
             request,
@@ -160,7 +161,18 @@ def case_study_conf(request):
         )
 
     else:
-      print("NO UPLOAD (form no valid)")
+      try:
+        print('File Suppose to be Updated (because already exists)')
+        # document_form.save(force_update=True)
+        # manif = Manifest.objects.get_or_create(candidate_id=)
+      except Exception as e:
+        print('File NOT added:', e)
+        messages.error(request, ERROR_MESSAGE + str(e))
+        return HttpResponse(ERROR_MESSAGE + str(e))
+        # return render(request, "middle/document-conf.html", {"form": document_form})
+      
+      messages.error(request, ERROR_MESSAGE + 'Manifest with this Candidate already exists.')
+      print("NO UPLOAD (form no valid):")
       print(document_form.errors)
 
   else:
@@ -187,13 +199,7 @@ def case_study_conf(request):
   )
 
 
-
-def create_entity(request):
-  # Meanwhile equals to conf
-  return case_study_conf(request)
-
-
-
+@login_required 
 def data_collection_conf(request):
   campaigns_tuple = db_util.get_campaigns_tuple()
   data_collection_form = DataCollectionForm(campaigns_tuple)
@@ -240,7 +246,7 @@ def data_collection_conf(request):
   )
 
 
-
+@login_required 
 def analysis_conf(request):
   campaigns_tuple = db_util.get_campaigns_tuple()
   analysis_conf_form = AnalysisConf(campaigns_tuple, request.POST)
@@ -333,7 +339,7 @@ def analysis_conf(request):
   return render(request, "middle/analysis-conf.html", {"form": analysis_conf_form})
 
 
-
+@login_required 
 def document_conf(request):
 
   document_form = DocumentForm(request.POST or None, request.FILES or None)
@@ -360,32 +366,6 @@ def document_conf(request):
   return render(request, "middle/document-conf.html", {"form": document_form})
 
 
-
-def delete_account(request):
-  return render(request, "middle/account.html")
-
-
-
-def get_manifest(request):
-  candidate_name = 'Jorge Yunda'  # 'Guillermo Lasso'
-  manif = db_util.get_manifest(candidate_name)  # str
-  print(manif)
-  from StudyCasesManage.logic.ea_data_process import document_content, process_data, posts_content
-  
-  manif_content = document_content(manif)
-  if "Error" in manif_content:
-    print(manif_content)
-    return HttpResponse('Get a manifest ' + manif_content)
-  
-  posts_text = posts_content(cand_name=candidate_name)
-  if "Error" in posts_text:
-    print(posts_text)
-    return HttpResponse('Get a manifest ' + posts_text)
-
-  print('Posts text\n', posts_text)
-  posts_text = "Hello, this is a test"
-  process_data(manifest_content=manif_content, posts_grouped=posts_text)
-  return HttpResponse('Get a manifest ' + manif)
 
 
 # Not a view
