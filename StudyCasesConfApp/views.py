@@ -213,20 +213,22 @@ def data_collection_conf(request):
       form_info = compute_collection_form.cleaned_data
     
       # Received as <QuerySet [('Test Study Case - 2020',)]>, for this, choose [0][0] which is a str
-      campaign_name = Campaign.objects.values_list('name').filter(id=form_info['case_study'])[0][0]
-      print("Campaign to collect:", campaign_name, "\nForm info:", form_info)
+      campaign = Campaign.objects.values_list('id', 'name').filter(id=form_info['case_study'])[0]
+      print('The campaign', campaign, type(campaign))
+      print("Campaign to collect:", campaign[1], "\nForm info:", form_info)
 
       #compute_collection(campaign_name: str, count: int, since: str, until: str)
       compute_collection(
-              campaign_name,
+              campaign[1],
               form_info['posts_limit'], 
               form_info['from_date'], 
-              form_info['until_date']
+              form_info['until_date'],
+              campaign[0]
             )
       
       messages.success(
           request,
-          "Computing data collection for " + campaign_name + '.' + 
+          "Computing data collection for " + campaign[1] + '.' + 
           " From: " + form_info['from_date'] + " To: " + form_info['until_date'] + "... Check 'your_url/admin/'."
       )
 
@@ -387,10 +389,10 @@ def get_manifest(request):
 
 
 # Not a view
-def compute_collection(campaign_name: str, count: int, since: str, until: str):
+def compute_collection(campaign_name: str, count: int, since: str, until: str, camp_id):
   from StudyCasesManage.logic.ea_get_time_lines import main
 
   screen_names_list = db_util.get_screen_names_list(campaign_name)
   print("Screen names in %s: %s" %(campaign_name, screen_names_list))
   
-  main(screen_names=screen_names_list, count=count, until=until, since=since)
+  main(screen_names=screen_names_list, count=count, until=until, since=since, camp=camp_id)

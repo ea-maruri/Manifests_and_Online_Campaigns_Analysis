@@ -5,6 +5,8 @@ import time
 import tweepy
 import json
 
+from StudyCasesManage.models import Campaign, Candidate, SocialMediaAccount, Timeline, Post
+
 
 # # PAMEALMEIDAS / Twitter Credentials
 # # Access Token for Twitter App
@@ -79,8 +81,6 @@ errorpath = './error/error.log'
 #         else:
 #             print(e.reason)
 
-
-from StudyCasesManage.models import Post, SocialMediaAccount, Timeline
 
 DATE_FORMAT = '%Y-%m-%d'
 
@@ -170,7 +170,7 @@ def get_timeline(n: int, screen_name: str, count_limit: int, since_date: str, ti
             print(e.reason)
 
 
-def execute_collection(screen_names: list, count: int, since: str, until: str):
+def execute_collection(screen_names: list, count: int, since: str, until: str, camp):
     print("Start collection...")
 
     since_date = datetime.datetime.strptime(since, DATE_FORMAT)
@@ -178,21 +178,49 @@ def execute_collection(screen_names: list, count: int, since: str, until: str):
     print('Since Date:', since_date.date())    
     print('Until Date:', until_date.date())
 
-    if since_date < until_date:
+    if since_date <= until_date:
         print('since is less than until...')
 
-        timelines_to_create = list()
-        for screen_name in screen_names:
-            timeline = Timeline(
-                social_media_id=SocialMediaAccount.objects.get(
-                    screen_name=screen_name),
-                collect_date=since_date.date(),
-                end_date=until_date.date()
-            )
+        timelines_to_get = list()
+        # for screen_name in screen_names:
+        campaign = Campaign.objects.get(id=camp)
+        candidates = Candidate.objects.values_list('id').filter(campaign_id=campaign)
 
-            print('Timeline to create:', timeline)
-            timeline.save()  # in db
-            timelines_to_create.append(timeline)
+        print('The candidates', candidates)
+            
+        accounts = list()
+        for cand_id in candidates:
+            # print('The candidadate:', cand_id, type(cand_id))
+            account = SocialMediaAccount.objects.values_list('id', 'screen_name').filter(candidate_id=cand_id[0])
+            account_as_id = SocialMediaAccount.objects.get(candidate_id=cand_id[0])
+            # timeline = Timeline.objects.get(social_media_id=account_as_id)
+            timeline = Timeline.objects.values_list('id').filter(social_media_id=account_as_id)
+                
+            # print('The account:', account, type(account))
+            accounts.append(account)
+            # print('The timeline:', timeline, type(timeline))
+
+            # if len(timeline) == 0:
+            if not timeline:
+                timeline = Timeline(
+                    social_media_id=SocialMediaAccount.objects.get(candidate_id=cand_id),
+                    collect_date=since_date.date(),
+                    end_date=until_date.date()
+                )
+                timeline.save()
+                # print('New timeline:', timeline, timeline.id)
+            else:
+                timeline = Timeline.objects.get(id=timeline[0][0])
+
+            # print('The timeline:', timeline, type(timeline))
+            timelines_to_get.append(timeline)
+
+        for timel in timelines_to_get:
+            print('\t> Timeline to get:', timel, type(timel))
+            # print('The timeline', timeline, type(timeline), '=', len(timeline))
+            # timelines.append(timeline)
+
+        # return
 
 
         # get_timeline(50, screen_names[0], count, since, until)
@@ -203,7 +231,7 @@ def execute_collection(screen_names: list, count: int, since: str, until: str):
                 t = threading.Thread(
                     target=get_timeline,
                     name=('thread' + str(thread_num) + '-' + screen_name),
-                    args=(60, screen_name, count, since, timelines_to_create[iteration])
+                    args=(60, screen_name, count, since, timelines_to_get[iteration])
                 )
 
                 t.start()
@@ -216,12 +244,16 @@ def execute_collection(screen_names: list, count: int, since: str, until: str):
             time.sleep(20*60)
 
 
-def main(screen_names: list, count: int, until: str, since: str = str(datetime.date.today)):
+def main(screen_names: list, count: int, until: str, since: str = str(datetime.date.today), camp: int=-1):
+    if camp < 0:
+        print("Error in campaign id:", camp)
+        return
+
     # Create a thread to control the others
     main_thread = threading.Thread(
         target=execute_collection,
         name=('Collector: ' + since + '-' + until),
-        args=(screen_names, count, since, until)
+        args=(screen_names, count, since, until, camp)
     )
     main_thread.start()
     main_thread.join()
