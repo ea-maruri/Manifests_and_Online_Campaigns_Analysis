@@ -30,6 +30,15 @@ SOCIAL_ACCOUNTS = (
 CAMPAIGN_LABEL = "Case Study"
 
 class DataCollectionForm(forms.Form):
+  """DataCollectionForm represents a form to configure the data collection
+
+  Args:
+      case_study ([ChoiceField]): [A multiple choice with current campaigns in the DB]
+      start_date ([DateField]): [A date field to show the date when the collections starts]
+      end_date ([DateField]): [A date field to show the date when the collections ends]
+      start_time ([TimeField]): [A time field to show the time (hour) when the collection starts (currently not used)]
+      end_date ([TimeField]): [A time field to show the time (hour) when the collection ends (currently not used)]
+  """
 
   def __init__(self, campaigns: tuple, *args, **kwargs):
     super(DataCollectionForm, self).__init__(*args, **kwargs)
