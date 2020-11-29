@@ -10,6 +10,7 @@ urlpatterns = [
   path('contact/', views.contact, name="contact"),
   path('login/', views.login, name="login"),
   path('register/', views.register, name="register"),
+  path('posts/', views.TableListView.as_view(), name="posts")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
