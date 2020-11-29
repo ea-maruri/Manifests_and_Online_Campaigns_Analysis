@@ -10,6 +10,47 @@ import StudyCasesManage.logic.ea_db_utilities as db_util
 # Import forms
 from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm, CustomUserCreationForm
 
+
+# Class for searching, filtering and ordering
+from django.views.generic import ListView
+from django.db.models import Q
+from .models import Candidate, Post
+
+class TableListView(ListView):
+  paginate_by = 10
+  model = Post
+  
+  # def get_queryset(self):
+  #   candidates = Candidate.objects.all()
+  #   query = self.request.GET.get("q")
+  #   if query:
+  #     candidates = Candidate.objects.filter(
+  #       Q(name__icontains=query) |
+  #       Q(lastname__icontains=query) |
+  #       Q(type__icontains=query) |
+  #       Q(party__icontains=query)
+  #     )
+    
+  #   return candidates
+    # return super().get_queryset()  
+
+  # def get_ordering(self):
+  #     ordering = self.request.GET.get('ordering', '-timeline_id')
+  #     # validate ordering here
+  #     return ordering
+  # def get_queryset(self):
+  #   filter_val = self.request.GET.get('filter', 'give-default-value')
+  #   order = self.request.GET.get('orderby', 'give-default-value')
+  #   new_context = Candidate.objects.filter(state=filter_val,).order_by(order)
+  #   return new_context
+
+  # def get_context_data(self, **kwargs):
+  #   context = super(TableListView, self).get_context_data(**kwargs)
+  #   context['filter'] = self.request.GET.get('filter', 'give-default-value')
+  #   context['orderby'] = self.request.GET.get('orderby', 'give-default-value')
+  #   return context
+
+
 #
 # Views
 #
@@ -17,12 +58,14 @@ def home(request):
   """Renders the home page"""
 
   campaigns_tuple = db_util.get_all_campaigns()
-  candidates_tuple = db_util.get_candidates_tuple()
+  candidates_tuple = db_util.get_all_candidates()
   candidates_docs = db_util.get_all_documents()
+  candidates_smas = db_util.get_all_social_media_accounts()
   context = {
             "campaigns": campaigns_tuple, 
             "candidates": candidates_tuple,
-            "docs": candidates_docs
+            "docs": candidates_docs,
+            "smas": candidates_smas,
             }
 
   return render(request, "home.html", context)
