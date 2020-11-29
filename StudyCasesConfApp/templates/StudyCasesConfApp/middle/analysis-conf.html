@@ -27,8 +27,9 @@
         {% else %}
           <div class="form-group">
             <form action="" method="POST">{% csrf_token %} 
-              {{form}}
-              <input type="submit" value="Start"/>
+              {{form.as_p}}
+
+              <input class="btn btn-success" type="submit" value="Start"/>
 
               <div class="d-flex justify-content-end">
                 <small id="formHelper" class="form-text text-muted">Please fill all data</small>
@@ -41,5 +42,29 @@
   </div>
 
   <hr class="my-5 w-75"/>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <strong>
+          <h3>Result</h3>
+        </strong>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="d-flex flex-column justify-content-center my-5">
+          {% if data %}
+            <img class="d-block mx-auto mt-1 mb-5" src="data:image/png;base64, {{data}}" alt="Result">
+          {% else %}
+            <p class="text-center">
+              There is No Result Yet
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
