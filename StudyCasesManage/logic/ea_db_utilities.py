@@ -11,6 +11,14 @@ def get_all_campaigns():
   return campaigns_list
 
 
+def get_all_candidates():
+  """"""
+  candidates_list = list()
+  for cand in Candidate.objects.all():
+    candidates_list.append(cand)
+
+  return candidates_list
+
 
 def get_all_documents():
   """Returns a list of Documents in the model"""
@@ -20,6 +28,14 @@ def get_all_documents():
   
   return docs_list
 
+
+def get_all_social_media_accounts():
+  """"""
+  sma_list = list()
+  for sma in SocialMediaAccount.objects.all():
+    sma_list.append(sma)
+
+  return sma_list
 
 
 def get_campaigns_tuple():
