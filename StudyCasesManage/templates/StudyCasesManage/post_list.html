@@ -1,0 +1,101 @@
+{% extends 'base.html' %} {% block title %}Posts{% endblock %} {% load static %}
+{% block content%}
+
+  <!-- Title -->
+  <div class="jumbotron text-center">
+    <h1 class="display-3">Collected Posts</h1>
+    <hr class="my-2">
+  </div>
+
+  <!-- Navigation -->
+  <div class="container">
+    <div class="row mb-2 mt-5">
+      <div class="pagination">
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+            <strong><a href="?page=1">&laquo; first</a></strong> |
+            <strong><a href="?page={{ page_obj.previous_page_number }}">previous</a></strong> |
+          {% endif %}
+
+          {% if page_obj.has_next %}
+            <strong><a href="?page={{ page_obj.next_page_number }}">next</a></strong> |
+            <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></strong>
+          {% endif %}
+        </span>
+      </div>  
+    </div>  
+  </div>
+
+  <!-- Page number Indicator -->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="row d-flex justify-content-end">
+          <span class="current">
+            <strong>
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </strong>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Table -->
+  <div class="container">
+    <!-- Table -->
+    <div class="row mt-3">
+      <div class="col-sm-12"> 
+        <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
+          <thead class="thead-inverse">
+            <tr>
+              <th scope="col">Timeline</th>
+              <th scope="col">Post Text</th>
+            </tr>
+          </thead>
+
+          <tbody class="">
+            {% if object_list %} 
+              {% for object in object_list %}
+                <tr class="">
+                  <td>{{object.timeline_id}}</td>
+                  <td>{{object.post_text}}</td>
+                </tr>
+              {% endfor %} 
+            {% else %}
+              <p>There are no <strong>posts</strong> yet</p>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Page number Indicator -->
+    <div class="row mb-5 d-flex justify-content-end">
+      <span class="current">
+        <strong>
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </strong>
+      </span>
+    </div>
+
+    <!-- Navigation -->
+    <div class="row mb-5 mt-5">
+      <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+              <strong><a href="?page=1">&laquo; first</a></strong> |
+              <strong><a href="?page={{ page_obj.previous_page_number }}">previous</a></strong> |
+            {% endif %}
+
+            {% if page_obj.has_next %}
+              <strong><a href="?page={{ page_obj.next_page_number }}">next</a></strong> |
+              <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></strong>
+            {% endif %}
+        </span>
+      </div>    
+    </div>
+
+  </div>
+{% endblock %}
