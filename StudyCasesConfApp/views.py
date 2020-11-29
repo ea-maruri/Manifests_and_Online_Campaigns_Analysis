@@ -1,5 +1,3 @@
-import base64
-from math import cos
 from django.http import request
 from django.http.response import HttpResponse
 from django.contrib import messages
@@ -249,9 +247,13 @@ def data_collection_conf(request):
 @login_required 
 def analysis_conf(request):
   campaigns_tuple = db_util.get_campaigns_tuple()
-  analysis_conf_form = AnalysisConf(campaigns_tuple, request.POST)
+  analysis_conf_form = AnalysisConf(campaigns_tuple)
+
+  uri = []
 
   if request.method == 'POST':
+    analysis_conf_form = AnalysisConf(campaigns_tuple, request.POST)
+    
     if analysis_conf_form.is_valid():
       print('\nStarting analysis...')
       form_info = analysis_conf_form.cleaned_data
@@ -319,6 +321,10 @@ def analysis_conf(request):
         # plt.figure(figsize=(1,1))
         plt.bar(range(len(cosine_results_dict)), list(cosine_results_dict.values()), align='center')
         plt.xticks(range(len(cosine_results_dict)), list(cosine_results_dict.keys()), rotation=45)
+        plt.grid()
+        plt.ylabel("Score (0-1)")
+        plt.xlabel("Candidate")
+        plt.title("Candidates Posts and Manifestos Similarity")
         # plt.title(str(cosine_results_dict))
         # plt.text(0, 0, str(cosine_results_dict))
         # plt.legend(cosine_results_dict)
@@ -329,14 +335,15 @@ def analysis_conf(request):
         buf.seek(0)
         string = base64.b64encode(buf.read())
         uri = urllib.parse.quote(string)
-        return render(request, 'analysis-result.html', {'data': uri})
+        # return render(request, 'analysis-result.html', {'data': uri})
 
       else:
         print('No Metric received!!!')
     else:
       print('Something')
 
-  return render(request, "middle/analysis-conf.html", {"form": analysis_conf_form})
+  return render(request, "middle/analysis-conf.html", {"form": analysis_conf_form, "data": uri})
+  # return render(request, "middle/analysis-conf.html", {"form": analysis_conf_form})
 
 
 @login_required 
@@ -364,7 +371,6 @@ def document_conf(request):
       print("NO UPLOAD")
 
   return render(request, "middle/document-conf.html", {"form": document_form})
-
 
 
 
