@@ -61,7 +61,7 @@ class Timeline(models.Model):
   end_date = models.DateField(blank=True, null=True)
 
   def __str__(self):
-    return "%s, collect_date: %s, end_date: %s" %(self.social_media_id, self.collect_date, self.end_date)
+    return "%s, start_date: %s, end_date: %s" %(self.social_media_id, self.collect_date, self.end_date)
 
 
 class Post(models.Model):
