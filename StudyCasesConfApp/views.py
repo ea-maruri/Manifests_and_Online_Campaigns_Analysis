@@ -31,7 +31,7 @@ IS_COLLECTING = False
 
 # Create your views here.
 
-@login_required 
+@login_required
 # @permission_required('????')
 def configurator(request):
   """Renders the request page"""
