@@ -41,61 +41,75 @@
     </div>
   </div>
   
-
-  <!-- Table -->
-  <div class="container">
+  {% if user.is_authenticated %}
     <!-- Table -->
-    <div class="row mt-3">
-      <div class="col-sm-12"> 
-        <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
-          <thead class="thead-inverse">
-            <tr>
-              <th scope="col">Timeline</th>
-              <th scope="col">Post Text</th>
-            </tr>
-          </thead>
+    <div class="container">
 
-          <tbody class="">
-            {% if object_list %} 
-              {% for object in object_list %}
-                <tr class="">
-                  <td>{{object.timeline_id}}</td>
-                  <td>{{object.post_text}}</td>
-                </tr>
-              {% endfor %} 
-            {% else %}
-              <p>There are no <strong>posts</strong> yet</p>
-            {% endif %}
-          </tbody>
-        </table>
+      <!-- Table -->
+      <div class="row mt-3">
+        <div class="col-sm-12"> 
+          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
+            <thead class="thead-inverse">
+              <tr>
+                <th scope="col">Post Date</th>
+                <th scope="col">Timeline</th>
+                <th scope="col">Post Text</th>
+              </tr>
+            </thead>
+
+            <tbody class="">
+              {% if object_list %} 
+                {% for object in object_list %}
+                  <tr class="">
+                    <td>{{object.post_date}}</td>
+                    <td>{{object.timeline_id}}</td>
+                    <td>{{object.post_text}}</td>
+                  </tr>
+                {% endfor %} 
+              {% else %}
+                <p>There are no <strong>posts</strong> yet</p>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <!-- Page number Indicator -->
-    <div class="row mb-5 d-flex justify-content-end">
-      <span class="current">
-        <strong>
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </strong>
-      </span>
-    </div>
-
-    <!-- Navigation -->
-    <div class="row mb-5 mt-5">
-      <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-              <strong><a href="?page=1">&laquo; first</a></strong> |
-              <strong><a href="?page={{ page_obj.previous_page_number }}">previous</a></strong> |
-            {% endif %}
-
-            {% if page_obj.has_next %}
-              <strong><a href="?page={{ page_obj.next_page_number }}">next</a></strong> |
-              <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></strong>
-            {% endif %}
+      <!-- Page number Indicator -->
+      <div class="row mb-5 d-flex justify-content-end">
+        <span class="current">
+          <strong>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </strong>
         </span>
-      </div>    
-    </div>
+      </div>
 
-  </div>
+      <!-- Navigation -->
+      <div class="row mb-5 mt-5">
+        <div class="pagination">
+          <span class="step-links">
+              {% if page_obj.has_previous %}
+                <strong><a href="?page=1">&laquo; first</a></strong> |
+                <strong><a href="?page={{ page_obj.previous_page_number }}">previous</a></strong> |
+              {% endif %}
+
+              {% if page_obj.has_next %}
+                <strong><a href="?page={{ page_obj.next_page_number }}">next</a></strong> |
+                <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></strong>
+              {% endif %}
+          </span>
+        </div>    
+      </div>
+
+    </div>
+  {% else %}
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>
+            You are not authenticated, please <a class="nav-link text-warning" href="{% url 'login' %}">SIGN-IN</a>
+          </h3>
+        </div>
+      </diV>
+    </div>
+  {% endif %}
 {% endblock %}
