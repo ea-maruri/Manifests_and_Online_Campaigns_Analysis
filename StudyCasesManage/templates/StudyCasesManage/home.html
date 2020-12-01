@@ -13,7 +13,7 @@
 
   <!-- Table and Extra data -->
   <div class="container my-5">
-    <!-- Campaign -->
+    <!-- Campaigns -->
     <div class="row">
 
       <div class="col-sm-12">
@@ -67,127 +67,135 @@
 
     </div>
 
-    
-    <!-- Candidate -->
-    <div class="row">
-      <div class="col-sm-12">
-        <!-- Title -->
-          <h3 class="mt-5 text-center my-3">Candidates</h3>
+    {% if user.is_authenticated %}
+      <!-- Candidates -->
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Title -->
+            <h3 class="mt-5 text-center my-3">Candidates</h3>
 
-          <!-- Table -->
-          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
-            <thead class="thead-inverse">
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Lastname</th>
-                <th scope="col">Campaign</th>
-                <th scope="col">Type</th>
-                <th scope="col">Party</th>
-              </tr>
-            </thead>
+            <!-- Table -->
+            <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
+              <thead class="thead-inverse w-100">
+                <tr class="w-100">
+                  <th scope="col">Name</th>
+                  <th scope="col">Lastname</th>
+                  <th scope="col">Campaign</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Party</th>
+                </tr>
+              </thead>
 
-            <tbody class="">
-              {% if candidates %}
-                {% for cand in candidates %}
-                  <tr class="">
-                    <th scope="row" class="text-right">{{cand.name}}</th>
-                    <td>{{cand.lastname}}</td>
-                    <td>{{cand.campaign_id}}</td>
-                    <td>{{cand.type}}</td>
-                    <td>{{cand.party}}</td>
-                  </tr>
-                {% endfor %}
-              {% else %}
-                <p>There are no <strong>candidates</strong> yet</p>
-              {% endif %}
-            </tbody>
-          </table>
+              <tbody class="">
+                {% if candidates %}
+                  {% for cand in candidates %}
+                    <tr class="">
+                      <th scope="row" class="text-right">{{cand.name}}</th>
+                      <td>{{cand.lastname}}</td>
+                      <td>{{cand.campaign_id}}</td>
+                      <td>{{cand.type}}</td>
+                      <td>{{cand.party}}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <p>There are no <strong>candidates</strong> yet</p>
+                {% endif %}
+              </tbody>
+            </table>
 
+        </div>
       </div>
-    </div>
 
 
-    <!-- Manifest -->
-    <div class="row">
-      <div class="col-sm-12">
-        <!-- Title -->
-          <h3 class="mt-5 text-center my-3">Manifestos</h3>
+      <!-- Manifestos -->
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Title -->
+            <h3 class="mt-5 text-center my-3">Manifestos</h3>
 
-          <!-- Table -->
-          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
-            <thead class="thead-inverse">
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Candidate</th>
-                <th scope="col">Manifest</th>
-                <th scope="col">Collect Date</th>
-              </tr>
-            </thead>
+            <!-- Table -->
+            <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
+              <thead class="thead-inverse">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Candidate</th>
+                  <th scope="col">Manifest</th>
+                  <th scope="col">Collect Date</th>
+                </tr>
+              </thead>
 
-            <tbody class="">
-              {% if docs %}
-                {% for doc in docs %}
-                  <tr class="">
-                    <th scope="row" class="text-right">{{doc.name}}</th>
-                    <td>{{doc.candidate_id}}</td>
-                    <td>{{doc.manifest}}</td>
-                    <td>{{doc.collect_date}}</td>
-                  </tr>
-                {% endfor %}
-              {% else %}
-                <p>There are no <strong>manifestos</strong> yet</p>
-              {% endif %}
-            </tbody>
-          </table>
+              <tbody class="">
+                {% if docs %}
+                  {% for doc in docs %}
+                    <tr class="">
+                      <th scope="row" class="text-right">{{doc.name}}</th>
+                      <td>{{doc.candidate_id}}</td>
+                      {% if doc.manifest %}
+                        <td>Yes</td>
+                      {% else %}
+                        <td>No</td>
+                      {% endif %}
+                      {% comment %} <td>{{doc.manifest}}</td> {% endcomment %}
+                      <td>{{doc.collect_date}}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <p>There are no <strong>manifestos</strong> yet</p>
+                {% endif %}
+              </tbody>
+            </table>
 
+        </div>
       </div>
-    </div>
 
-    <!-- Social Media Account -->
-    <div class="row">
-      <div class="col-sm-12">
-        <!-- Title -->
-          <h3 class="mt-5 text-center my-3">Social Media Accounts</h3>
 
-          <!-- Table -->
-          <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
-            <thead class="thead-inverse">
-              <tr>
-                <th scope="col">Candidate</th>
-                <th scope="col">Screen Name</th>
-                <th scope="col">Account</th>
-              </tr>
-            </thead>
+      <!-- Social Media Accounts -->
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Title -->
+            <h3 class="mt-5 text-center my-3">Social Media Accounts</h3>
 
-            <tbody class="">
-              {% if smas %}
-                {% for sma in smas %}
-                  <tr class="">
-                    <th scope="row" class="text-right">{{sma.candidate_id}}</th>
-                    <td>{{sma.screen_name}}</td>
-                    <td>{{sma.account}}</td>
-                  </tr>
-                {% endfor %}
-              {% else %}
-                <p>There are no <strong>social media accounts</strong> yet</p>
-              {% endif %}
-            </tbody>
-          </table>
+            <!-- Table -->
+            <table class="table table-hover table-sm table-striped table-inverse table-responsive table-dark">
+              <thead class="thead-inverse">
+                <tr>
+                  <th scope="col">Candidate</th>
+                  <th scope="col">Screen Name</th>
+                  <th scope="col">Account</th>
+                </tr>
+              </thead>
 
+              <tbody class="">
+                {% if smas %}
+                  {% for sma in smas %}
+                    <tr class="">
+                      <th scope="row" class="text-right">{{sma.candidate_id}}</th>
+                      <td>{{sma.screen_name}}</td>
+                      <td>{{sma.account}}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <p>There are no <strong>social media accounts</strong> yet</p>
+                {% endif %}
+              </tbody>
+            </table>
+
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <button type="button" class="btn btn-block btn-primary my-5">
-        <a class="nav-link p-0 text-white" href="{% url 'posts' %}">
-          <strong>See posts</strong>
-        </a>
-      </button>
+
+      <!-- Posts -->
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-block btn-primary my-5">
+          <a class="nav-link p-0 text-white" href="{% url 'posts' %}">
+            <strong>See posts</strong>
+          </a>
+        </button>
+        </div>
       </div>
-    </div>
+
+    {% endif %}
   </div>
 
 
