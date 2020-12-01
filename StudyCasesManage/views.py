@@ -3,6 +3,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http.response import HttpResponse
 from django.contrib.auth import authenticate, login as dj_login
+# Class for searching, filtering and ordering
+from django.views.generic import ListView
+from django.db.models import Q
+# from django.contrib.auth.decorators import login_required
 
 # Own utilities
 import StudyCasesManage.logic.ea_db_utilities as db_util
@@ -10,15 +14,13 @@ import StudyCasesManage.logic.ea_db_utilities as db_util
 # Import forms
 from Manifests_and_Online_Campaigns_Analysis.forms import ContactForm, CustomUserCreationForm
 
-
-# Class for searching, filtering and ordering
-from django.views.generic import ListView
-from django.db.models import Q
 from .models import Candidate, Post
 
+# @login_required
 class TableListView(ListView):
   paginate_by = 10
   model = Post
+  ordering = ['-post_date']  # First, the newest
   
   # def get_queryset(self):
   #   candidates = Candidate.objects.all()
